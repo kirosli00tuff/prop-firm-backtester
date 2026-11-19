@@ -139,4 +139,4 @@ CI (`.github/workflows/ci.yml`) runs the same three on every push and pull reque
 
 ## License
 
-See LICENSE.
+MIT. See LICENSE.
