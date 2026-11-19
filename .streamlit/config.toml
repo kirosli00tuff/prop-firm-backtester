@@ -1,0 +1,19 @@
+# The dashboard theme (docs/design/DASH_V2.md, "Look"). `pfb dash` passes the same values as --theme.* flags
+# so any working directory shows the same look; tests/dash/test_cli_dash.py checks that the two agree.
+[theme]
+base = "dark"
+primaryColor = "#4C9AFF"
+backgroundColor = "#0E1014"
+secondaryBackgroundColor = "#161A20"
+textColor = "#E6E8EB"
+font = "sans-serif"
+codeFont = "monospace"
+
+# No Deploy button; `pfb dash` passes --client.toolbarMode minimal too (tests/dash/test_cli_dash.py).
+[client]
+toolbarMode = "minimal"
+
+# The uploader's limit in MB (Streamlit's default says "200MB per file"); a strategy upload is capped at 256 KiB
+# by pfb.dash.actions. `pfb dash` passes --server.maxUploadSize 1 too (tests/dash/test_d7_fixes.py).
+[server]
+maxUploadSize = 1

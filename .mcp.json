@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pfb": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "--no-sync", "python", "-m", "pfb.mcp"],
+      "env": {}
+    }
+  }
+}

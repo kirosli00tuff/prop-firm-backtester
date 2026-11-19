@@ -1,0 +1,64 @@
+# Engine-check allowlist (docs/ADR-001_architecture.md A2, A14 (a), A14 (f) G10).
+# An engine check runs on real data at the SPEC default params, adds nothing to N, and is refused unless it
+# equals one entry here in every field and this file and the entry's strategy file are committed and unchanged.
+# On a clone without config/paths.toml the bars come from the synthetic demo store (`pfb demo` builds it), which
+# holds MNQ and NQ research files: E3 runs there; the E6 windows need your own step 2 and hist stores.
+schema = "pfb.engine_checks/1"
+
+# E3: the reference month, the reference breakout on MNQ through pfb.runner.
+[[check]]
+id = "E3"
+declared_in = "docs/ADR-001_architecture.md"
+strategy = "strategies/reference_breakout.py"
+strategy_sha256 = "89435b65546aede9cbf9e11dd9544f8aec083137e90c3d2c662076930825bb31"
+root = "MNQ"
+first = "2025-04-01"
+last = "2025-04-30"
+fees = "topstep"
+cost_model = "book"
+session = "globex"
+seed = 0
+params = { day_open_minute = 510, day_close_minute = 900, range_minutes = 15, buffer_ticks = 4, hold_minutes = 75, exit_before_close_minutes = 2 }
+
+# E6: benchmark windows of 1, 5 and 10 years ending 2022-01-31, the last open day before the older embargo.
+[[check]]
+id = "E6_1Y"
+declared_in = "docs/ADR-001_architecture.md"
+strategy = "strategies/reference_breakout.py"
+strategy_sha256 = "89435b65546aede9cbf9e11dd9544f8aec083137e90c3d2c662076930825bb31"
+root = "NQ"
+first = "2021-02-01"
+last = "2022-01-31"
+fees = "topstep"
+cost_model = "book"
+session = "globex"
+seed = 0
+params = { day_open_minute = 510, day_close_minute = 900, range_minutes = 15, buffer_ticks = 4, hold_minutes = 75, exit_before_close_minutes = 2 }
+
+[[check]]
+id = "E6_5Y"
+declared_in = "docs/ADR-001_architecture.md"
+strategy = "strategies/reference_breakout.py"
+strategy_sha256 = "89435b65546aede9cbf9e11dd9544f8aec083137e90c3d2c662076930825bb31"
+root = "NQ"
+first = "2017-02-01"
+last = "2022-01-31"
+fees = "topstep"
+cost_model = "book"
+session = "globex"
+seed = 0
+params = { day_open_minute = 510, day_close_minute = 900, range_minutes = 15, buffer_ticks = 4, hold_minutes = 75, exit_before_close_minutes = 2 }
+
+[[check]]
+id = "E6_10Y"
+declared_in = "docs/ADR-001_architecture.md"
+strategy = "strategies/reference_breakout.py"
+strategy_sha256 = "89435b65546aede9cbf9e11dd9544f8aec083137e90c3d2c662076930825bb31"
+root = "NQ"
+first = "2012-02-01"
+last = "2022-01-31"
+fees = "topstep"
+cost_model = "book"
+session = "globex"
+seed = 0
+params = { day_open_minute = 510, day_close_minute = 900, range_minutes = 15, buffer_ticks = 4, hold_minutes = 75, exit_before_close_minutes = 2 }

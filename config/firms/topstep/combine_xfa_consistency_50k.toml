@@ -1,0 +1,372 @@
+# Topstep 50K Trading Combine -> Express Funded Account, consistency payout path (pfb-rules-1).
+# Headline choices: Standard pricing path, DLL not chosen, Back2Funded off (not modelled by pfb-rules-1).
+# Source: the firm's public help centre, read 2026-11-16.
+
+schema = "pfb-rules-1"
+firm = "topstep"
+plan = "combine_xfa_consistency"
+size = "50k"
+label = "Topstep 50K Trading Combine, Standard pricing path, XFA Consistency payout path"
+status = "sourced"
+version = { n = 1, rules_read = "2026-11-16", read_in = "removed in the public copy" }
+effective_from = { v = "2026-10-10", src = "E19", note = "earliest lookup that shows these rules (the rules fetch); the Tier 1 news rule was refreshed 2026-10-21" }
+
+[eval]
+start_balance_cents = { v = 5000000, src = "A2_balance" }
+profit_target_cents = { v = 300000, src = "R068" }
+target_check = { v = "eod", src = "R074", kind = "inferred", note = "best day and profit lock at 3:10 PM CT (R074 note); the pass is tested at the close" }
+drawdown_cents = { v = 200000, src = "R069" }
+drawdown_type = { v = "eod_trailing", src = "R070" }
+breach_check = { v = "intraday", src = "R070", note = "R070 note: breach checked in real time on realized + unrealized P&L" }
+breach_at_equal = { v = true, src = "R070", kind = "conservative", note = "equity touching the MLL is a breach (the day step tests worst <= -D_open)" }
+drawdown_lock_rel_cents = { v = 0, src = "R071" }
+daily_loss_cents = { v = "none", src = "R072", alt = [100000], note = "headline: DLL not chosen. The optional DLL is $1,000 soft (R073), chosen at checkout" }
+daily_loss_kind = { v = "none", src = "R072", alt = ["soft"], note = "soft if chosen (R073: not a rule violation)" }
+consistency_type = { v = "best_day_frac_of_profit", src = "R074", note = "exceeding raises the target to best day / 0.55: same as best <= 55% of profit" }
+consistency_bps = { v = 5500, src = "R075" }
+consistency_strict = { v = true, src = "R029", kind = "conservative", alt = [false] }
+min_trading_days = { v = 2, src = "R076" }
+min_winning_days = { v = 0, src = "R076", kind = "inferred", note = "no winning-day rule in the Combine" }
+winning_day_cents = { v = "none", src = "R076", kind = "inferred", note = "no winning-day rule in the Combine" }
+max_contracts_minis = { v = 5, src = "R077" }
+time_limit_calendar_days = { v = "none", src = "R007" }
+flat_by = { v = "15:10_ct", src = "R032", note = "informational; the run enforces its own flat time" }
+news_rule = { v = "tier1_no_open_5min", src = "R040", note = "refresh: no new opens on minis 5 min before to 5 min after Tier 1 releases; micros capped; not modelled by the engine" }
+
+[funded]
+start_balance_cents = { v = 0, src = "R080" }
+drawdown_cents = { v = 200000, src = "R081" }
+drawdown_type = { v = "eod_trailing", src = "R082" }
+breach_check = { v = "intraday", src = "R082" }
+breach_at_equal = { v = true, src = "R082", kind = "conservative", note = "touching the MLL is a breach (as in the day step)" }
+drawdown_lock_rel_cents = { v = 0, src = "R083" }
+daily_loss_cents = { v = "none", src = "R085", alt = [100000], note = "headline: DLL not chosen ($1,000 soft if chosen at Combine checkout)" }
+daily_loss_kind = { v = "none", src = "R085", alt = ["soft"] }
+floor_after_first_payout_rel_cents = { v = 0, src = "R084" }
+scaling = { v = [[150000, 2], [200000, 3], ["none", 5]], src = "R086", note = "R086-R091 (transcribed from an image on the page): below $1,500: 2; $1,500-$2,000: 3; above: 5 minis" }
+scaling_boundary = { v = "lower", src = "R092", kind = "conservative", alt = ["upper"], note = "R092 UNSOURCED: the page does not say; the lower (stricter) tier at a boundary" }
+payout_count_limit = { v = "none", src = "R105", kind = "inferred", note = "R105 UNSOURCED: no cap found; call-up is discretionary (R011) and the run treats it as no trigger" }
+inactivity_days = { v = 30, src = "R010" }
+funded_reset_cents = { v = 59900, src = "R106", note = "Back2Funded: $599 to reactivate a breached 50K XFA, at most 2 per XFA (R108), only before its first payout (R109), within 30 calendar days of the closure (R110), $50 off with a DLL (R107); read again 2026-11-16, the Back2Funded article is unchanged since the earlier read. Not modelled: the run never buys it" }
+
+[payout]
+path = { v = "consistency", src = "R099" }
+win_day_cents = { v = "none", src = "R099", kind = "inferred", note = "no winning-day rule on the Consistency path" }
+win_day_strict = { v = false, src = "R099", kind = "inferred", note = "unused on this path" }
+win_days_required = { v = 0, src = "R099", kind = "inferred", note = "no winning-day rule on the Consistency path" }
+traded_days_required = { v = 3, src = "R099" }
+net_positive_since_last = { v = true, src = "R104", kind = "inferred", note = "R104 INFERRED" }
+net_min_first_cents = { v = "none", src = "R098", kind = "inferred", note = "no window-net minimum beyond > 0" }
+net_min_later_cents = { v = "none", src = "R098", kind = "inferred", note = "no window-net minimum beyond > 0" }
+min_balance_rel_cents = { v = "none", src = "R058", kind = "inferred", note = "R058 CONFLICT: a stale marketing page names a minimum payout balance with no amount; the help centre states only the $0.01 rule; no minimum is modelled" }
+buffer_rel_cents = { v = "none", src = "R095", kind = "inferred", note = "no buffer; the request is capped at 50% of the balance" }
+frac_of_profit_bps = { v = 5000, src = "R101", note = "50% of the XFA balance (= profit)" }
+min_request_cents = { v = 12500, src = "R008" }
+caps_cents = { v = [300000], src = "R102", alt = [[600000]], note = "per request; $6,000 with a DLL chosen at Combine purchase (R103, not chosen)" }
+window_cap_bps = { v = "none", src = "R102" }
+window_cap_from_payout = { v = 1, src = "R102", note = "unused (no window cap)" }
+consistency_bps = { v = 4000, src = "R100" }
+consistency_scope = { v = "window", src = "R100" }
+consistency_strict = { v = false, src = "R030" }
+request_weekday = { v = "none", src = "R093", kind = "inferred", note = "any day" }
+window_calendar_days = { v = "none", src = "R093", kind = "inferred", note = "no calendar-day payout window stated (the window is in trading days)" }
+dead_days_after_payout = { v = 0, src = "R009", kind = "inferred" }
+payout_day_counts = { v = false, src = "R009", note = "the day the request is processed (the next trading day after the eligible close) does not count toward the next window" }
+split_bps = { v = 9000, src = "R002" }
+split_first_full_cents = { v = "none", src = "R002", note = "the legacy 100%-of-first-$10,000 exception does not apply to new accounts (R002 note)" }
+
+[fees]
+billing = { v = "monthly", src = "R003" }
+eval_price_cents = { v = 4900, src = "R062", alt = [9500], note = "Standard path (headline pricing path); No Activation Fee path $95 (R063)" }
+billing_period_calendar_days = { v = 30, src = "R003" }
+reset_cents = { v = 4900, src = "R064" }
+rebill_adds_reset_credit = { v = true, src = "R004" }
+reset_pushes_rebill = { v = true, src = "R005" }
+activation_cents = { v = 14900, src = "R078", note = "Standard path, once per XFA earned" }
+funded_monthly_cents = { v = 0, src = "R078", kind = "inferred", note = "no XFA monthly fee in the record" }
+platform_monthly_cents = { v = 1450, src = "R043", alt = [2900], note = "TopstepX API for a bot, discounted price; list price $29 (R043 readings)" }
+
+[sources.A2_balance]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Topstep 50K plan: max loss amount"
+
+[sources.E19]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rules, refreshed 2026-10-21"
+
+[sources.R002]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R002: profit split trader (sourced)"
+
+[sources.R003]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R003: billing period calendar days (sourced)"
+
+[sources.R004]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R004: rebill adds reset credit (sourced)"
+
+[sources.R005]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R005: reset pushes rebill (sourced)"
+
+[sources.R007]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R007: combine time limit days (sourced)"
+
+[sources.R008]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R008: payout min request usd (sourced)"
+
+[sources.R009]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R009: payout day counts toward next window (sourced)"
+
+[sources.R010]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R010: xfa inactivity close days (sourced)"
+
+[sources.R011]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R011: callup / type (sourced)"
+
+[sources.R029]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R029: combine consistency inclusive (conflict)"
+
+[sources.R030]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R030: xfa consistency inclusive (sourced)"
+
+[sources.R032]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R032: flat by ct (sourced)"
+
+[sources.R040]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Topstep rule R040: news flatten required (sourced)"
+
+[sources.R043]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R043: api access monthly usd (sourced)"
+
+[sources.R058]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R058: xfa min payout balance after first required (conflict)"
+
+[sources.R062]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R062: combine / monthly price usd / standard (sourced)"
+
+[sources.R063]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R063: combine / monthly price usd / no activation fee (sourced)"
+
+[sources.R106]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R106: xfa / back2funded / price usd (sourced)"
+
+[sources.R064]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R064: combine / reset price usd / standard (sourced)"
+
+[sources.R068]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R068: combine / profit target usd (sourced)"
+
+[sources.R069]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R069: combine / mll usd (sourced)"
+
+[sources.R070]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R070: combine / mll trail (sourced)"
+
+[sources.R071]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R071: combine / mll floor max rel usd (sourced)"
+
+[sources.R072]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R072: combine / dll usd (sourced)"
+
+[sources.R074]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R074: combine / consistency / type (sourced)"
+
+[sources.R075]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R075: combine / consistency / frac (sourced)"
+
+[sources.R076]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R076: combine / min trading days (sourced)"
+
+[sources.R077]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R077: combine / max minis (sourced)"
+
+[sources.R078]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R078: activation fee usd / standard (sourced)"
+
+[sources.R080]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R080: xfa / start balance usd (sourced)"
+
+[sources.R081]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R081: xfa / mll usd (sourced)"
+
+[sources.R082]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R082: xfa / mll trail (sourced)"
+
+[sources.R083]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R083: xfa / mll floor lock usd (sourced)"
+
+[sources.R084]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R084: xfa / mll after first payout usd (sourced)"
+
+[sources.R085]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R085: xfa / dll option usd (sourced)"
+
+[sources.R086]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R086: xfa / scaling / 0 / below usd (sourced)"
+
+[sources.R087]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R087: xfa / scaling / 0 / max minis (sourced)"
+
+[sources.R088]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R088: xfa / scaling / 1 / below usd (sourced)"
+
+[sources.R089]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R089: xfa / scaling / 1 / max minis (sourced)"
+
+[sources.R090]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R090: xfa / scaling / 2 / below usd (sourced)"
+
+[sources.R091]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R091: xfa / scaling / 2 / max minis (sourced)"
+
+[sources.R092]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R092: xfa / scaling boundary (unsourced)"
+
+[sources.R093]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R093: xfa / payout / standard / winning day usd (sourced)"
+
+[sources.R094]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R094: xfa / payout / standard / winning days (sourced)"
+
+[sources.R095]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R095: xfa / payout / standard / frac of balance (sourced)"
+
+[sources.R096]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R096: xfa / payout / standard / cap usd (sourced)"
+
+[sources.R097]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R097: xfa / payout / standard / cap usd dll (sourced)"
+
+[sources.R098]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R098: xfa / payout / standard / net positive since last (sourced)"
+
+[sources.R099]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R099: xfa / payout / consistency / traded days (sourced)"
+
+[sources.R100]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R100: xfa / payout / consistency / best day max frac (sourced)"
+
+[sources.R101]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R101: xfa / payout / consistency / frac of balance (sourced)"
+
+[sources.R102]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R102: xfa / payout / consistency / cap usd (sourced)"
+
+[sources.R103]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R103: xfa / payout / consistency / cap usd dll (sourced)"
+
+[sources.R104]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R104: xfa / payout / consistency / net positive since last (inferred)"
+
+[sources.R105]
+record = "removed in the public copy"
+looked_up = "2026-10-10"
+title = "Topstep rule R105: xfa / payout count limit (unsourced)"

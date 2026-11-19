@@ -1,0 +1,165 @@
+# Lucid Trading LucidFlex 50K, OLDER dated version (50% evaluation consistency), pfb-rules-1.
+# The newer version is config/firms/lucid/lucidflex_50k.toml (40% from 2026-10-19). This file differs from it in
+# eval.consistency_bps (5000, the 50% in force before 2026-10-19), effective_from, version, the two old-record
+# sources O1 and O2, and the fees (the pre-2026-10-19 price is not recorded: unknown, alt the current price).
+# Every other value is carried from the newer version, hence status provisional.
+# Source: the firm's public help centre, read 2026-10-21.
+
+schema = "pfb-rules-1"
+firm = "lucid"
+plan = "lucidflex"
+size = "50k"
+label = "Lucid LucidFlex 50K evaluation and LucidFlex funded (sim), DLL ON, 50% consistency (before 2026-10-19)"
+status = "provisional"
+version = { n = 1, rules_read = "2026-10-21", read_in = "removed in the public copy" }
+effective_from = { v = "2026-08-31", src = "O1" }
+
+[sources.O1]
+record = "removed in the public copy"
+looked_up = "2026-10-03"
+title = "Lucid help: LucidFlex Evaluation Account, updated August 31, 2026 (150K row quoted)"
+
+[sources.O2]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Lucid record: Flex evaluation consistency cell s50k 50% (pricing widget, Wayback 2026-10-05)"
+
+[sources.S01]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: LucidFlex Evaluation Account (Wayback 2026-11-09; updated 2026-10-19)"
+
+[sources.S02]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: LucidFlex Consistency Percentage (Wayback 2026-11-10; updated 2026-10-19)"
+
+[sources.S03]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: LucidFlex Drawdown (Wayback 2026-11-10; updated 2026-08-26)"
+
+[sources.S04]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: LucidFlex Funded Account (Wayback 2026-11-12; updated 2026-10-13)"
+
+[sources.S05]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: LucidFlex Payouts (Wayback 2026-11-10; updated 2026-07-28)"
+
+[sources.S06]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: LucidFlex Funded Account Scaling Plan (Wayback 2026-11-10; updated 2026-05-06)"
+
+[sources.S07]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: LucidFlex Customization (Wayback 2026-11-09; updated 2026-10-20)"
+
+[sources.S08]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid home page pricing widget config LucidPricingConfig (Wayback 2026-11-06)"
+
+[sources.S09]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: Allowed Trading Times (Wayback 2026-11-07; updated 2026-08-26)"
+
+[sources.S10]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Lucid help: Simulated Account Fees (Wayback 2026-11-10; updated 2026-08-26)"
+
+[sources.S11]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Lucid record: inactivity (sup_inactivity, updated 2026-08-26)"
+
+[sources.S12]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Lucid record: automation and API (no Lucid page names an API or an API fee)"
+
+[sources.S13]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Lucid record: news trading allowed on Flex, Pro and Direct (sup_other_activities, updated 2026-08-26)"
+
+[eval]
+start_balance_cents = { v = 5000000, src = "S01", note = "carried from the 2026-10-19 version" }
+profit_target_cents = { v = 300000, src = "S01", note = "carried from the 2026-10-19 version" }
+target_check = { v = "eod", src = "S01", kind = "conservative", alt = ["intraday"], note = "carried from the 2026-10-19 version" }
+drawdown_cents = { v = 200000, src = "S03", note = "drawdown article updated 2026-08-26, before this version" }
+drawdown_type = { v = "eod_trailing", src = "S03" }
+breach_check = { v = "intraday", src = "S03", kind = "conservative", alt = ["eod"], note = "as in the 2026-10-19 version" }
+breach_at_equal = { v = true, src = "S03" }
+drawdown_lock_rel_cents = { v = 10000, src = "S03" }
+daily_loss_cents = { v = 120000, src = "S08", note = "carried from the 2026-10-19 version (DLL ON)" }
+daily_loss_kind = { v = "soft", src = "S07", note = "carried from the 2026-10-19 version" }
+consistency_type = { v = "best_day_frac_of_profit", src = "S02", note = "carried from the 2026-10-19 version" }
+consistency_bps = { v = 5000, src = "O2", note = "50% (s50k cell, widget copy 2026-10-05; the article updated 2026-08-31 shows 50% on its 150K row, O1)" }
+consistency_strict = { v = false, src = "S02" }
+min_trading_days = { v = 1, src = "S01", kind = "inferred", note = "carried from the 2026-10-19 version" }
+min_winning_days = { v = 0, src = "S01", note = "no such rule" }
+winning_day_cents = { v = "none", src = "S01" }
+max_contracts_minis = { v = 4, src = "S01", note = "carried from the 2026-10-19 version" }
+time_limit_calendar_days = { v = "none", src = "S01", note = "carried from the 2026-10-19 version" }
+flat_by = { v = "ct_1545", src = "S09", note = "trading-times article updated 2026-08-26" }
+news_rule = { v = "none", src = "S13" }
+
+[funded]
+start_balance_cents = { v = 5000000, src = "S04", note = "carried from the 2026-10-19 version" }
+drawdown_cents = { v = 200000, src = "S04", note = "carried from the 2026-10-19 version" }
+drawdown_type = { v = "eod_trailing", src = "S03" }
+breach_check = { v = "intraday", src = "S03", kind = "conservative", alt = ["eod"], note = "as in [eval]" }
+breach_at_equal = { v = true, src = "S03" }
+drawdown_lock_rel_cents = { v = 10000, src = "S03" }
+daily_loss_cents = { unknown = "unpublished on the pages read, 2026-11-16: the pricing widget gives a $1,200 DLL below the initial trail for LucidFlex; the funded DLL once the trail has locked (LucidPro: 60% of the highest EOD profit above 52,100) is not published for Flex (the read of 2026-11-17 covered the Flex evaluation and consistency articles only)", src = "S08", kind = "conservative", alt = [120000], assume = true, note = "carried from the 2026-10-19 version (the run assumes the fixed $1,200, the value this file carried before)" }
+daily_loss_kind = { v = "soft", src = "S07", note = "carried from the 2026-10-19 version" }
+floor_after_first_payout_rel_cents = { v = 10000, src = "S03" }
+scaling = { v = [[100000, 2], [200000, 3], ["none", 4]], src = "S06", note = "scaling article updated 2026-05-06" }
+scaling_boundary = { v = "upper", src = "S06" }
+payout_count_limit = { v = 5, src = "S05" }
+inactivity_days = { v = 30, src = "S11" }
+funded_reset_cents = { unknown = "no page or record read for this repo states whether lucid sells a reset of a breached funded account (the pages and records read 2026-11-16 and 2026-11-17 name none); not researched, so not assumed either way", note = "not modelled: the run never buys one" }
+
+[payout]
+path = { v = "standard", src = "S05" }
+win_day_cents = { v = 15000, src = "S05", note = "payouts article updated 2026-07-28, before this version" }
+win_day_strict = { v = false, src = "S05" }
+win_days_required = { v = 5, src = "S05" }
+traded_days_required = { v = 5, src = "S08", note = "carried from the 2026-10-19 version" }
+net_positive_since_last = { v = true, src = "S05" }
+net_min_first_cents = { v = "none", src = "S05" }
+net_min_later_cents = { v = "none", src = "S05" }
+min_balance_rel_cents = { v = "none", src = "S05" }
+buffer_rel_cents = { v = "none", src = "S05" }
+frac_of_profit_bps = { v = 5000, src = "S05" }
+min_request_cents = { v = 50000, src = "S05" }
+caps_cents = { v = [200000], src = "S05" }
+window_cap_bps = { v = "none", src = "S05" }
+window_cap_from_payout = { v = 1, src = "S05", note = "unused (no window cap)" }
+consistency_bps = { v = "none", src = "S04", note = "carried from the 2026-10-19 version (funded article updated 2026-10-13)" }
+consistency_scope = { v = "window", src = "S04", note = "not applicable (no funded consistency)" }
+consistency_strict = { v = false, src = "S04", note = "not applicable" }
+request_weekday = { v = "none", src = "S05" }
+window_calendar_days = { v = "none", src = "S05", kind = "inferred" }
+dead_days_after_payout = { v = 0, src = "S05" }
+payout_day_counts = { v = false, src = "S05", kind = "conservative" }
+split_bps = { v = 9000, src = "S05" }
+split_first_full_cents = { v = "none", src = "S05" }
+
+[fees]
+billing = { v = "one_time", src = "S01", note = "carried from the 2026-10-19 version" }
+eval_price_cents = { unknown = "the list price before 2026-10-19 is not recorded (the 2026-11-06 widget prices the 40% plan; 50% is now a paid add-on)", src = "S08", alt = [11500] }
+billing_period_calendar_days = { v = "none", src = "S01" }
+reset_cents = { unknown = "the reset price before 2026-10-19 is not recorded", src = "S08", alt = [8000] }
+rebill_adds_reset_credit = { v = false, src = "S01", note = "no rebilling" }
+reset_pushes_rebill = { v = false, src = "S01", note = "no rebilling" }
+activation_cents = { v = 0, src = "S01", note = "carried from the 2026-10-19 version" }
+funded_monthly_cents = { v = 0, src = "S04", note = "carried from the 2026-10-19 version" }
+platform_monthly_cents = { v = 0, src = "S12", kind = "inferred" }

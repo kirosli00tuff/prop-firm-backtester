@@ -1,0 +1,178 @@
+# config/fees/bulenox.toml: commission per side and per round turn, integer cents, per allowed root.
+# Source: the firm's public fee schedule, read 2026-10-21.
+# cents = Decimal(str(usd)) x 100, whole; a side derived from a round turn alone is ceil(rt / 2).
+# Only roots of config/instruments.toml are listed; a root not listed cannot run with this firm.
+
+schema = "pfb.fees/1"
+firm = "bulenox"
+lookup_date = 2026-10-21
+source_file = "removed in the public copy"
+source_sha256 = "removed in the public copy"
+
+[[fee]]
+root = "NQ"
+commission_side_cents = 209
+commission_rt_cents = 418
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MNQ"
+commission_side_cents = 61
+commission_rt_cents = 122
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "RTY"
+commission_side_cents = 209
+commission_rt_cents = 418
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "M2K"
+commission_side_cents = 61
+commission_rt_cents = 122
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "YM"
+commission_side_cents = 209
+commission_rt_cents = 418
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MYM"
+commission_side_cents = 61
+commission_rt_cents = 122
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "6E"
+commission_side_cents = 236
+commission_rt_cents = 472
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "M6E"
+commission_side_cents = 50
+commission_rt_cents = 100
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "6A"
+commission_side_cents = 236
+commission_rt_cents = 472
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "M6A"
+commission_side_cents = 50
+commission_rt_cents = 100
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "CL"
+commission_side_cents = 226
+commission_rt_cents = 452
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MCL"
+commission_side_cents = 76
+commission_rt_cents = 152
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "QM"
+commission_side_cents = 196
+commission_rt_cents = 392
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "NG"
+commission_side_cents = 226
+commission_rt_cents = 452
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "QG"
+commission_side_cents = 126
+commission_rt_cents = 252
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "GC"
+commission_side_cents = 231
+commission_rt_cents = 462
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MGC"
+commission_side_cents = 76
+commission_rt_cents = 152
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "SI"
+commission_side_cents = 231
+commission_rt_cents = 462
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "HG"
+commission_side_cents = 231
+commission_rt_cents = 462
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZW"
+commission_side_cents = 286
+commission_rt_cents = 572
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZS"
+commission_side_cents = 286
+commission_rt_cents = 572
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZM"
+commission_side_cents = 286
+commission_rt_cents = 572
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZL"
+commission_side_cents = 286
+commission_rt_cents = 572
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MBT"
+commission_side_cents = 276
+commission_rt_cents = 552
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21

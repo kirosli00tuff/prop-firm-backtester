@@ -1,0 +1,232 @@
+# Tradeify Growth 50K, pfb-rules-1. PROVISIONAL: values not re-checked on today's pages.
+# Values come from archived copies of the firm's help-centre articles.
+# Source: the firm's public help centre, read 2026-11-17.
+
+schema = "pfb-rules-1"
+firm = "tradeify"
+plan = "growth"
+size = "50k"
+label = "Tradeify Growth 50K: EOD trailing enforced in real time, soft DLL, 5 x $150 days per payout"
+status = "provisional"
+version = { n = 1, rules_read = "2026-11-17", read_in = "removed in the public copy" }
+effective_from = { v = "2026-10-14", src = "A2_EVAL_TYPE", note = "Growth evaluation article lastUpdated 2026-10-14 (evaluation consistency removed between 2026-10-03 and 2026-10-14); Tradeify 3.0 (one-time fees) from 2026-04" }
+
+[eval]
+start_balance_cents = { v = 5000000, src = "A2_TARGET" }
+profit_target_cents = { v = 300000, src = "A2_TARGET" }
+target_check = { v = "eod", src = "A2_TARGET", kind = "conservative", alt = ["intraday"], note = "not stated in the record; eod is the stricter reading" }
+drawdown_cents = { v = 200000, src = "A2_MLL" }
+drawdown_type = { v = "eod_trailing", src = "A2_EVAL_TYPE" }
+breach_check = { v = "intraday", src = "A2_EVAL_TYPE" }
+breach_at_equal = { v = true, src = "A2_EVAL_TYPE" }
+drawdown_lock_rel_cents = { v = "none", src = "A2_EVAL_TYPE", alt = [10000] }
+daily_loss_cents = { v = 125000, src = "A2_DLL" }
+daily_loss_kind = { v = "soft", src = "A2_DLL" }
+consistency_type = { v = "none", src = "A2_EVAL_CONS", note = "removed between 2026-10-03 (35%) and 2026-10-14" }
+consistency_bps = { v = "none", src = "A2_EVAL_CONS" }
+consistency_strict = { v = false, src = "A2_EVAL_CONS", kind = "inferred", note = "unused" }
+min_trading_days = { v = 1, src = "A2_MINDAYS" }
+min_winning_days = { v = 0, src = "A2_MINDAYS", kind = "inferred" }
+winning_day_cents = { v = "none", src = "A2_MINDAYS", kind = "inferred" }
+max_contracts_minis = { v = 4, src = "A2_POS", note = "4 minis or 40 micros (accounts bought from 2025-09-12)" }
+time_limit_calendar_days = { v = "none", src = "A2_TIMELIMIT", note = "no deadline; at least one trade per Mon-Fri week" }
+flat_by = { v = "16:45_et", src = "A2_FLAT", note = "informational; firm closes open positions without failing the account" }
+news_rule = { v = "unrestricted", src = "A2_NEWS" }
+
+[funded]
+start_balance_cents = { v = 5000000, src = "A2_F_START" }
+drawdown_cents = { v = 200000, src = "A2_F_MLL" }
+drawdown_type = { v = "eod_trailing", src = "A2_F_MLL" }
+breach_check = { v = "intraday", src = "A2_EVAL_TYPE" }
+breach_at_equal = { v = true, src = "A2_EVAL_TYPE" }
+drawdown_lock_rel_cents = { v = 10000, src = "A2_F_MLL", note = "locks when EOD balance reaches $52,100; floor $50,100" }
+daily_loss_cents = { v = 125000, src = "A2_F_DLL" }
+daily_loss_kind = { v = "soft", src = "A2_F_DLL" }
+floor_after_first_payout_rel_cents = { v = 10000, src = "A2_F_MLL" }
+scaling = { v = [["none", 4]], src = "A2_F_SCALING", note = "Growth uses its maximum size from day one" }
+scaling_boundary = { v = "lower", src = "A2_F_SCALING", kind = "inferred", note = "one tier: unused" }
+payout_count_limit = { v = "none", src = "A2_F_LIVE", kind = "inferred", alt = [3], note = "a move to Live is discretionary; the Select payout article (Wayback 2026-11-07) gives the firm-wide minimum for consideration: 3 payouts on one account or 10 in total (alt 3)" }
+inactivity_days = { v = 7, src = "A2_TIMELIMIT", kind = "inferred", note = "informational: one trade per Mon-Fri week" }
+funded_reset_cents = { unknown = "unpublished on the pages read, 2026-11-17: an earlier read (2026-10-21) found the Growth article saying the simulated funded counterpart cannot be reset; the Funded Reset FAQ (collection 2026-11-03) names Select funded accounts only; no page read since states Growth either way", alt = ["none"], note = "alt: the earlier reading of the Growth article. Not modelled: the run never buys one" }
+
+[payout]
+path = { v = "growth", src = "A2_F_WINDAYS" }
+win_day_cents = { v = 15000, src = "A2_F_WINDAYS" }
+win_day_strict = { v = true, src = "A2_F_WINDAYS" }
+win_days_required = { v = 5, src = "A2_F_WINDAYS", note = "count resets to zero after each payout" }
+traded_days_required = { v = 0, src = "A2_F_WINDAYS", kind = "inferred", note = "no traded-day rule beyond the winning days" }
+net_positive_since_last = { v = false, src = "A2_F_WINDAYS", kind = "inferred", note = "not stated" }
+net_min_first_cents = { v = "none", src = "A2_F_WINDAYS", kind = "inferred" }
+net_min_later_cents = { v = "none", src = "A2_F_WINDAYS", kind = "inferred" }
+min_balance_rel_cents = { v = 300000, src = "A2_F_MINBAL", note = "balance >= $53,000 to request (accounts from 2025-09-12)" }
+buffer_rel_cents = { v = 10001, src = "A2_F_BUFFER", kind = "conservative", alt = [10000] }
+frac_of_profit_bps = { v = 10000, src = "A2_F_CAPS", kind = "inferred", note = "caps only, no percentage limit" }
+min_request_cents = { v = 50000, src = "A2_F_MINPAY" }
+caps_cents = { v = [150000, 200000, 250000, 300000], src = "A2_F_CAPS", note = "1st $1,500, 2nd $2,000, 3rd $2,500, 4th and later $3,000 (hard caps)" }
+window_cap_bps = { v = "none", src = "A2_F_CAPS" }
+window_cap_from_payout = { v = 1, src = "A2_F_CAPS", note = "unused (no window cap)" }
+consistency_bps = { v = 3500, src = "A2_F_CONS", note = "the Consistency Rule article was not fetched, definition (largest day / total profit) unverified" }
+consistency_scope = { v = "window", src = "A2_F_CONS", kind = "inferred", alt = ["cumulative"], note = "scope not stated; the earlier read used the window since the last payout" }
+consistency_strict = { v = false, src = "W_COLL_RULES", alt = [true] }
+request_weekday = { v = "none", src = "A2_F_FREQ", note = "request once conditions are met; one open request per account" }
+window_calendar_days = { v = "none", src = "A2_F_FREQ", kind = "inferred", note = "no calendar-day payout window stated (the window is in trading days)" }
+dead_days_after_payout = { v = 0, src = "A2_F_FREQ", kind = "inferred" }
+payout_day_counts = { v = false, src = "A2_F_FREQ", kind = "conservative", alt = [true], note = "not stated (the earlier read did not count it)" }
+split_bps = { v = 9000, src = "A2_F_SPLIT" }
+split_first_full_cents = { v = "none", src = "A2_F_SPLIT", kind = "inferred" }
+
+[fees]
+billing = { v = "one_time", src = "A2_BILLING" }
+eval_price_cents = { v = 14500, src = "A2_PRICE" }
+billing_period_calendar_days = { v = "none", src = "A2_BILLING" }
+reset_cents = { v = 9500, src = "A2_RESET" }
+rebill_adds_reset_credit = { v = false, src = "A2_BILLING", note = "no rebill" }
+reset_pushes_rebill = { v = false, src = "A2_BILLING", note = "no rebill" }
+activation_cents = { v = 0, src = "A2_ACT" }
+funded_monthly_cents = { v = 0, src = "A2_ACT", kind = "inferred", note = "no funded fee in the record" }
+platform_monthly_cents = { v = 0, src = "A2_API", kind = "inferred", note = "no API fee found; Tradovate API only on live accounts, so a bot's route on sim is open" }
+
+[sources.A2_PRICE]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.price (pricing reference)"
+
+[sources.A2_RESET]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.reset_fee"
+
+[sources.A2_BILLING]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.billing"
+
+[sources.A2_ACT]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.activation_fee"
+
+[sources.A2_TARGET]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.profit_target (Growth evaluation table)"
+
+[sources.A2_MLL]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.max_loss"
+
+[sources.A2_EVAL_TYPE]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.max_loss_type (Growth evaluation article, lastUpdated 2026-10-14)"
+
+[sources.A2_DLL]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.daily_loss_limit"
+
+[sources.A2_EVAL_CONS]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.consistency_eval"
+
+[sources.A2_MINDAYS]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.min_days"
+
+[sources.A2_TIMELIMIT]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.time_limit"
+
+[sources.A2_POS]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.position_limit"
+
+[sources.A2_FLAT]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.flat_by"
+
+[sources.A2_NEWS]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify restrictions.news"
+
+[sources.A2_API]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify automation.api"
+
+[sources.A2_F_START]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.start_balance"
+
+[sources.A2_F_MLL]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.max_loss (drawdown article, copy 2026-10-03)"
+
+[sources.A2_F_DLL]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.daily_loss_limit"
+
+[sources.A2_F_SCALING]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.scaling"
+
+[sources.A2_F_LIVE]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.type"
+
+[sources.A2_F_WINDAYS]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.winning_days (Growth payout policy, lastUpdated 2026-09-10)"
+
+[sources.A2_F_MINBAL]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.min_balance_to_request"
+
+[sources.A2_F_BUFFER]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify section 1.3, buffer after payout"
+
+[sources.A2_F_CAPS]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.payout_caps"
+
+[sources.A2_F_MINPAY]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.min_payout"
+
+[sources.A2_F_CONS]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.consistency"
+
+[sources.A2_F_FREQ]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.frequency"
+
+[sources.A2_F_SPLIT]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.split"
+
+[sources.W_COLL_RULES]
+record = "removed in the public copy"
+looked_up = "2026-11-03"
+title = "Tradeify help centre, Accounts & Rules collection (Wayback capture 2026-11-03; article summaries)"

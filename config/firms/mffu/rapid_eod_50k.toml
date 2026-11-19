@@ -1,0 +1,114 @@
+# MyFundedFutures Rapid EOD 50K (EOD-trailing evaluation and funded stage), pfb-rules-1.
+# Status provisional: every value the page does not state is Unknown; its alt lists the reading(s) the same firm's
+# pages give for Rapid 50K (config/firms/mffu/rapid_50k.toml), for a sensitivity run only. Two rules stay not
+# modelled: the funded news ban and the cap of 3 funded accounts (no account-count field in the schema).
+# Source: the firm's public help centre, read 2026-11-17.
+
+schema = "pfb-rules-1"
+firm = "mffu"
+plan = "rapid_eod"
+size = "50k"
+label = "MyFundedFutures Rapid EOD 50K: EOD-trailing evaluation and Sim Funded, daily payouts after a 2,100 buffer"
+status = "provisional"
+version = { n = 1, rules_read = "2026-11-17", read_in = "removed in the public copy" }
+effective_from = { v = "2026-08-24", src = "N_EOD" }
+
+[eval]
+start_balance_cents = { v = 5000000, src = "N_EOD", note = "plan size 50K" }
+profit_target_cents = { v = 300000, src = "N_EOD" }
+target_check = { unknown = "the note does not say whether equity touching the target passes intraday", src = "N_NOTE", alt = ["eod", "intraday"], note = "alt stricter first; rapid_50k.toml uses eod (conservative)" }
+drawdown_cents = { v = 200000, src = "N_EOD" }
+drawdown_type = { v = "eod_trailing", src = "N_EOD", kind = "inferred", alt = ["static"] }
+breach_check = { unknown = "the note does not say whether an open position below the floor breaches intraday", src = "N_NOTE", alt = ["intraday", "eod"], note = "alt stricter first; MFFU's general EOD article (rapid_50k.toml M_EOD) reads intraday" }
+breach_at_equal = { unknown = "the note does not say whether equity equal to the floor breaches", src = "N_NOTE", alt = [true, false] }
+drawdown_lock_rel_cents = { unknown = "the note gives the +100 USD lock for the funded stage only", src = "N_NOTE", alt = ["none", 10000], note = "alt stricter first; MFFU's general EOD article (M_EOD) reads a lock at start + 100 USD" }
+daily_loss_cents = { v = "none", src = "N_EOD" }
+daily_loss_kind = { v = "none", src = "N_EOD" }
+consistency_type = { unknown = "the note gives 30% but not the formula (best day against profit or against target)", src = "N_NOTE", alt = ["best_day_frac_of_target", "best_day_frac_of_profit"], note = "alt stricter first; rapid_50k.toml reads best_day_frac_of_profit (M_CONS)" }
+consistency_bps = { v = 3000, src = "N_EOD" }
+consistency_strict = { unknown = "the note does not say whether a best day equal to 30% passes", src = "N_NOTE", alt = [true, false] }
+min_trading_days = { v = 4, src = "N_EOD" }
+min_winning_days = { unknown = "the note does not mention a winning-day rule", src = "N_NOTE", alt = [0] }
+winning_day_cents = { unknown = "the note does not mention a winning-day rule", src = "N_NOTE", alt = ["none"] }
+max_contracts_minis = { v = 3, src = "N_EOD" }
+time_limit_calendar_days = { unknown = "the note gives a 7-day inactivity rule but no evaluation deadline either way", src = "N_NOTE", alt = ["none"], note = "rapid_50k.toml reads none (no deadline on any page; M_INACT)" }
+flat_by = { unknown = "the note does not give the flat time (informational)", src = "N_NOTE", alt = ["16:10_et"], note = "MFFU Permitted Times page (rapid_50k.toml M_TIMES)" }
+news_rule = { v = "unrestricted", src = "N_EOD" }
+
+[funded]
+start_balance_cents = { v = 0, src = "P_EOD" }
+drawdown_cents = { v = 200000, src = "N_EOD" }
+drawdown_type = { v = "eod_trailing", src = "N_EOD" }
+breach_check = { unknown = "the note does not say whether an open position below the floor breaches intraday", src = "N_NOTE", alt = ["intraday", "eod"], note = "alt stricter first; M_EOD reads intraday" }
+breach_at_equal = { unknown = "the page (P_EOD) states a breach below the floor for the locked floor only, not for the trailing floor before the lock", src = "N_NOTE", alt = [true, false], note = "alt stricter first; M_EOD reads false; rapid_50k.toml reads the same sentence as false" }
+drawdown_lock_rel_cents = { v = 10000, src = "N_EOD" }
+daily_loss_cents = { v = "none", src = "N_EOD" }
+daily_loss_kind = { v = "none", src = "N_EOD" }
+floor_after_first_payout_rel_cents = { v = 10000, src = "N_EOD", kind = "inferred", note = "derived from given values: a payout needs a close balance >= start + 2,600 (buffer 2,100 + minimum 500), so the EOD peak has already locked the floor at start + 100; 10000 and none give the same floor" }
+scaling = { v = [["none", 3]], src = "N_EOD" }
+scaling_boundary = { v = "lower", src = "N_EOD", kind = "inferred", note = "one tier: unused, no value changes an outcome" }
+payout_count_limit = { v = "none", src = "R50", kind = "inferred" }
+inactivity_days = { v = 7, src = "P_EOD" }
+funded_reset_cents = { unknown = "not published on the firm's help pages, read 2026-11-17: the resets article (M_RESET_E3) and the Rapid EOD 50k article (P_EOD) name no reset of a breached Sim Funded account and no price", src = "M_RESET_E3", note = "not modelled: the run never buys one; never assumed available" }
+
+[payout]
+path = { v = "daily", src = "N_EOD" }
+win_day_cents = { unknown = "the note states the unlock as net profit and does not mention a winning-day rule", src = "N_NOTE", alt = ["none"] }
+win_day_strict = { unknown = "the note does not mention a winning-day rule", src = "N_NOTE", alt = [false] }
+win_days_required = { unknown = "the note states the unlock as net profit and does not mention a winning-day rule", src = "N_NOTE", alt = [0] }
+traded_days_required = { v = 1, src = "N_EOD", kind = "inferred" }
+net_positive_since_last = { v = true, src = "N_EOD", kind = "inferred" }
+net_min_first_cents = { v = "none", src = "N_EOD", kind = "inferred" }
+net_min_later_cents = { v = 50000, src = "N_NOTE" }
+min_balance_rel_cents = { v = 210000, src = "N_EOD", kind = "inferred" }
+buffer_rel_cents = { v = 210000, src = "N_EOD", kind = "inferred" }
+frac_of_profit_bps = { v = 10000, src = "N_EOD", kind = "inferred" }
+min_request_cents = { v = 50000, src = "N_EOD" }
+caps_cents = { v = "none", src = "N_EOD" }
+window_cap_bps = { v = "none", src = "N_EOD", kind = "inferred" }
+window_cap_from_payout = { v = 1, src = "N_EOD", kind = "inferred", note = "unused (no window cap)" }
+consistency_bps = { v = "none", src = "N_EOD" }
+consistency_scope = { v = "window", src = "N_EOD", kind = "inferred", note = "unused (no funded consistency); not read by the engine" }
+consistency_strict = { v = false, src = "N_EOD", kind = "inferred", note = "unused (no funded consistency); not read by the engine" }
+request_weekday = { v = "none", src = "N_EOD", kind = "inferred" }
+window_calendar_days = { v = "none", src = "N_EOD", kind = "inferred" }
+dead_days_after_payout = { unknown = "the note does not say whether days after a payout are skipped", src = "N_NOTE", alt = [0], note = "rapid_50k.toml reads 0" }
+payout_day_counts = { unknown = "the note does not say whether the payout day counts toward the next window", src = "N_NOTE", alt = [false, true], note = "alt stricter first; rapid_50k.toml reads false (conservative)" }
+split_bps = { v = 9000, src = "N_EOD" }
+split_first_full_cents = { v = "none", src = "N_EOD", kind = "inferred", note = "note gives a flat 90% split" }
+
+[fees]
+billing = { v = "one_time", src = "N_EOD" }
+eval_price_cents = { v = 27500, src = "N_EOD", alt = [16500] }
+billing_period_calendar_days = { v = "none", src = "N_EOD", note = "one-time billing" }
+reset_cents = { unknown = "a reset price is unpublished on every page read (note section 1)", src = "N_NOTE", alt = ["none"], note = "alt none = every failure buys a new evaluation at the list price (as the other three MFFU plans)" }
+rebill_adds_reset_credit = { v = false, src = "N_EOD", kind = "inferred", note = "no rebill under one-time billing" }
+reset_pushes_rebill = { v = false, src = "N_EOD", kind = "inferred", note = "no rebill under one-time billing" }
+activation_cents = { v = 0, src = "N_EOD" }
+funded_monthly_cents = { unknown = "the note does not mention a funded monthly fee", src = "N_NOTE", alt = [0], note = "rapid_50k.toml reads 0 (no funded fee on any page)" }
+platform_monthly_cents = { unknown = "the note does not mention a platform or API fee", src = "N_NOTE", alt = [0], note = "rapid_50k.toml reads 0 (no MFFU API fee documented)" }
+
+[sources.N_EOD]
+record = "removed in the public copy"
+looked_up = "2026-11-17"
+title = "MFFU help: Rapid EOD 50k - A Comprehensive Look (dated 2026-08-24), read from a live-rule note; values via N_NOTE"
+
+[sources.P_EOD]
+record = "removed in the public copy"
+looked_up = "2026-11-17"
+title = "MFFU help: Rapid EOD 50k - A Comprehensive Look (dated August 24, 2026), fetched 2026-11-17"
+
+[sources.M_RESET_E3]
+record = "removed in the public copy"
+looked_up = "2026-11-17"
+title = "MFFU help: Understanding the Difference Between Account Resets and Renewals (dated September 24, 2026), fetched 2026-11-17"
+
+[sources.N_NOTE]
+record = "removed in the public copy"
+looked_up = "2026-11-17"
+title = "Live firm rule check, section 2 (MFFU Rapid EOD 50K)"
+
+[sources.R50]
+record = "PropFirmBacktester:config/firms/mffu/rapid_50k.toml#funded.payout_count_limit"
+looked_up = "2026-11-16"
+title = "MFFU Rapid 50K plan file (live transition as standard Rapid 50k)"

@@ -1,0 +1,662 @@
+# Instrument table: one [[instrument]] per root.
+# Prices in exchange units; vendor_price_factor scales to the vendor's quote unit (100 = US cents).
+# No commission here: fees are per firm (config/fees/).
+schema = "pfb.instruments/1"
+
+[[instrument]]
+root = "NQ"
+group = "equity"
+subgroup = "equity"
+exposure = "nasdaq100"
+contract_type = "mini"
+tick_size = "0.25"
+tick_value_usd = "5.00"
+multiplier_usd = "20"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "MNQ"
+group = "equity"
+subgroup = "equity"
+exposure = "nasdaq100"
+contract_type = "micro"
+tick_size = "0.25"
+tick_value_usd = "0.50"
+multiplier_usd = "2"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "RTY"
+group = "equity"
+subgroup = "equity"
+exposure = "russell2000"
+contract_type = "mini"
+tick_size = "0.10"
+tick_value_usd = "5.00"
+multiplier_usd = "50"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "M2K"
+group = "equity"
+subgroup = "equity"
+exposure = "russell2000"
+contract_type = "micro"
+tick_size = "0.10"
+tick_value_usd = "0.50"
+multiplier_usd = "5"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "YM"
+group = "equity"
+subgroup = "equity"
+exposure = "dow"
+contract_type = "mini"
+tick_size = "1.00"
+tick_value_usd = "5.00"
+multiplier_usd = "5"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "MYM"
+group = "equity"
+subgroup = "equity"
+exposure = "dow"
+contract_type = "micro"
+tick_size = "1.00"
+tick_value_usd = "0.50"
+multiplier_usd = "0.5"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ES"
+group = "equity"
+subgroup = "equity"
+exposure = "sp500"
+contract_type = "mini"
+tick_size = "0.25"
+tick_value_usd = "12.50"
+multiplier_usd = "50"
+vendor_price_factor = 1
+admissible = false
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "MES"
+group = "equity"
+subgroup = "equity"
+exposure = "sp500"
+contract_type = "micro"
+tick_size = "0.25"
+tick_value_usd = "1.25"
+multiplier_usd = "5"
+vendor_price_factor = 1
+admissible = false
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZT"
+group = "rates"
+subgroup = "rates"
+exposure = "ust2y"
+contract_type = "mini"
+tick_size = "0.00390625"
+tick_value_usd = "7.8125"
+multiplier_usd = "2000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZF"
+group = "rates"
+subgroup = "rates"
+exposure = "ust5y"
+contract_type = "mini"
+tick_size = "0.0078125"
+tick_value_usd = "7.8125"
+multiplier_usd = "1000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZN"
+group = "rates"
+subgroup = "rates"
+exposure = "ust10y"
+contract_type = "mini"
+tick_size = "0.015625"
+tick_value_usd = "15.625"
+multiplier_usd = "1000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "TN"
+group = "rates"
+subgroup = "rates"
+exposure = "ustultra10y"
+contract_type = "mini"
+tick_size = "0.015625"
+tick_value_usd = "15.625"
+multiplier_usd = "1000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZB"
+group = "rates"
+subgroup = "rates"
+exposure = "ustbond"
+contract_type = "mini"
+tick_size = "0.03125"
+tick_value_usd = "31.25"
+multiplier_usd = "1000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "UB"
+group = "rates"
+subgroup = "rates"
+exposure = "ustultrabond"
+contract_type = "mini"
+tick_size = "0.03125"
+tick_value_usd = "31.25"
+multiplier_usd = "1000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "6E"
+group = "fx"
+subgroup = "fx"
+exposure = "eur"
+contract_type = "mini"
+tick_size = "0.00005"
+tick_value_usd = "6.25"
+multiplier_usd = "125000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "M6E"
+group = "fx"
+subgroup = "fx"
+exposure = "eur"
+contract_type = "micro"
+tick_size = "0.0001"
+tick_value_usd = "1.25"
+multiplier_usd = "12500"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "reading: not named by Topstep; category applied by analogy"
+
+[[instrument]]
+root = "E7"
+group = "fx"
+subgroup = "fx"
+exposure = "eur"
+contract_type = "mini"
+tick_size = "0.0001"
+tick_value_usd = "6.25"
+multiplier_usd = "62500"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "reading: not named by Topstep; category applied by analogy"
+
+[[instrument]]
+root = "6A"
+group = "fx"
+subgroup = "fx"
+exposure = "aud"
+contract_type = "mini"
+tick_size = "0.00005"
+tick_value_usd = "5.00"
+multiplier_usd = "100000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "M6A"
+group = "fx"
+subgroup = "fx"
+exposure = "aud"
+contract_type = "micro"
+tick_size = "0.0001"
+tick_value_usd = "1.00"
+multiplier_usd = "10000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "reading: not named by Topstep; category applied by analogy"
+
+[[instrument]]
+root = "6B"
+group = "fx"
+subgroup = "fx"
+exposure = "gbp"
+contract_type = "mini"
+tick_size = "0.0001"
+tick_value_usd = "6.25"
+multiplier_usd = "62500"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "M6B"
+group = "fx"
+subgroup = "fx"
+exposure = "gbp"
+contract_type = "micro"
+tick_size = "0.0001"
+tick_value_usd = "0.625"
+multiplier_usd = "6250"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "reading: not named by Topstep; category applied by analogy"
+
+[[instrument]]
+root = "6C"
+group = "fx"
+subgroup = "fx"
+exposure = "cad"
+contract_type = "mini"
+tick_size = "0.00005"
+tick_value_usd = "5.00"
+multiplier_usd = "100000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "6J"
+group = "fx"
+subgroup = "fx"
+exposure = "jpy"
+contract_type = "mini"
+tick_size = "5E-7"
+tick_value_usd = "6.25"
+multiplier_usd = "12500000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "6S"
+group = "fx"
+subgroup = "fx"
+exposure = "chf"
+contract_type = "mini"
+tick_size = "0.00005"
+tick_value_usd = "6.25"
+multiplier_usd = "125000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "6N"
+group = "fx"
+subgroup = "fx"
+exposure = "nzd"
+contract_type = "mini"
+tick_size = "0.00005"
+tick_value_usd = "5.00"
+multiplier_usd = "100000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "CL"
+group = "energy"
+subgroup = "energy"
+exposure = "wti"
+contract_type = "mini"
+tick_size = "0.01"
+tick_value_usd = "10.00"
+multiplier_usd = "1000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "MCL"
+group = "energy"
+subgroup = "energy"
+exposure = "wti"
+contract_type = "micro"
+tick_size = "0.01"
+tick_value_usd = "1.00"
+multiplier_usd = "100"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "QM"
+group = "energy"
+subgroup = "energy"
+exposure = "wti"
+contract_type = "mini"
+tick_size = "0.025"
+tick_value_usd = "12.50"
+multiplier_usd = "500"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "reading: not named by Topstep; category applied by analogy"
+
+[[instrument]]
+root = "NG"
+group = "energy"
+subgroup = "energy"
+exposure = "henryhub"
+contract_type = "mini"
+tick_size = "0.001"
+tick_value_usd = "10.00"
+multiplier_usd = "10000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "MNG"
+group = "energy"
+subgroup = "energy"
+exposure = "henryhub"
+contract_type = "micro"
+tick_size = "0.001"
+tick_value_usd = "1.00"
+multiplier_usd = "1000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "QG"
+group = "energy"
+subgroup = "energy"
+exposure = "henryhub"
+contract_type = "mini"
+tick_size = "0.005"
+tick_value_usd = "12.50"
+multiplier_usd = "2500"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "reading: not named by Topstep; category applied by analogy"
+
+[[instrument]]
+root = "RB"
+group = "energy"
+subgroup = "energy"
+exposure = "rbob"
+contract_type = "mini"
+tick_size = "0.0001"
+tick_value_usd = "4.20"
+multiplier_usd = "42000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "HO"
+group = "energy"
+subgroup = "energy"
+exposure = "ulsd"
+contract_type = "mini"
+tick_size = "0.0001"
+tick_value_usd = "4.20"
+multiplier_usd = "42000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "GC"
+group = "metals"
+subgroup = "gold"
+exposure = "gold"
+contract_type = "mini"
+tick_size = "0.10"
+tick_value_usd = "10.00"
+multiplier_usd = "100"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "MGC"
+group = "metals"
+subgroup = "gold"
+exposure = "gold"
+contract_type = "micro"
+tick_size = "0.10"
+tick_value_usd = "1.00"
+multiplier_usd = "10"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "SI"
+group = "metals"
+subgroup = "silver"
+exposure = "silver"
+contract_type = "mini"
+tick_size = "0.005"
+tick_value_usd = "25.00"
+multiplier_usd = "5000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "SIL"
+group = "metals"
+subgroup = "silver"
+exposure = "silver"
+contract_type = "sil"
+tick_size = "0.005"
+tick_value_usd = "5.00"
+multiplier_usd = "1000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "HG"
+group = "metals"
+subgroup = "copper"
+exposure = "copper"
+contract_type = "mini"
+tick_size = "0.0005"
+tick_value_usd = "12.50"
+multiplier_usd = "25000"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "MHG"
+group = "metals"
+subgroup = "copper"
+exposure = "copper"
+contract_type = "micro"
+tick_size = "0.0005"
+tick_value_usd = "1.25"
+multiplier_usd = "2500"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZC"
+group = "grains"
+subgroup = "grains"
+exposure = "corn"
+contract_type = "mini"
+tick_size = "0.0025"
+tick_value_usd = "12.50"
+multiplier_usd = "5000"
+vendor_price_factor = 100
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZW"
+group = "grains"
+subgroup = "grains"
+exposure = "wheat"
+contract_type = "mini"
+tick_size = "0.0025"
+tick_value_usd = "12.50"
+multiplier_usd = "5000"
+vendor_price_factor = 100
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZS"
+group = "grains"
+subgroup = "grains"
+exposure = "soybeans"
+contract_type = "mini"
+tick_size = "0.0025"
+tick_value_usd = "12.50"
+multiplier_usd = "5000"
+vendor_price_factor = 100
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZM"
+group = "grains"
+subgroup = "grains"
+exposure = "soymeal"
+contract_type = "mini"
+tick_size = "0.10"
+tick_value_usd = "10.00"
+multiplier_usd = "100"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "ZL"
+group = "grains"
+subgroup = "grains"
+exposure = "soyoil"
+contract_type = "mini"
+tick_size = "0.0001"
+tick_value_usd = "6.00"
+multiplier_usd = "60000"
+vendor_price_factor = 100
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "HE"
+group = "livestock"
+subgroup = "livestock"
+exposure = "leanhogs"
+contract_type = "mini"
+tick_size = "0.00025"
+tick_value_usd = "10.00"
+multiplier_usd = "40000"
+vendor_price_factor = 100
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "LE"
+group = "livestock"
+subgroup = "livestock"
+exposure = "livecattle"
+contract_type = "mini"
+tick_size = "0.00025"
+tick_value_usd = "10.00"
+multiplier_usd = "40000"
+vendor_price_factor = 100
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"
+
+[[instrument]]
+root = "MBT"
+group = "crypto"
+subgroup = "crypto"
+exposure = "bitcoin"
+contract_type = "mbt"
+tick_size = "5.00"
+tick_value_usd = "0.50"
+multiplier_usd = "0.1"
+vendor_price_factor = 1
+admissible = true
+tick_source = "CME contract specifications"
+weight_source = "Topstep Scaling Plan"

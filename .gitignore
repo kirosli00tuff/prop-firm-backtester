@@ -1,0 +1,34 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Bars, run artifacts and anything derived from data never enter git (data/demo/ is rebuilt by `pfb demo`).
+/runs/
+/data/
+*.parquet
+*.dbn
+*.dbn.zst
+*.npy
+*.npz
+
+# Local configuration and secrets.
+.env
+.env.*
+config/paths.toml
+
+# The ledger: only the committed genesis chain ledger/registry.jsonl is tracked.
+/ledger/*
+!/ledger/registry.jsonl
+
+.coverage
+htmlcov/
+.pyright/
+.numba_cache/
+dist/
+build/
+*.egg-info/
+
+# Strategies uploaded through the dashboard Check step.
+/strategies/uploads/

@@ -1,0 +1,21 @@
+# config/paths.example.toml: copy to config/paths.toml (local, git-ignored) and fill in your own paths.
+# Without config/paths.toml, pfb reads the synthetic demo store under data/demo/ (built by `pfb demo`).
+# The DataGateway opens only exact store file names under these three roots (src/pfb/data/paths.py).
+
+[stores]
+research = "/path/to/bars/research"
+step2    = "/path/to/bars/step2"
+hist     = "/path/to/bars/hist"
+# Optional: a JSON file of the sha256 your data producer recorded per store file (pfb.data.catalog.load_pins).
+# pins = "/path/to/bars/pins.json"
+
+# Optional: your own cost tables instead of the fictional ones config/costs.toml names. Their sha256 must equal
+# the pins in config/costs.toml, so update those pins with them.
+# [costs]
+# book_table       = "/path/to/book_costs.json"
+# release_calendar = "/path/to/release_calendar.json"
+
+# Optional: an earlier research checkout whose append-only trial ledger (ledger/trial_registrations.jsonl and
+# ledger/trial_amendments.jsonl) counts into the one global N (pfb registry genesis / sync).
+# [upstream]
+# root = "/path/to/earlier_research_repo"

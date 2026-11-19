@@ -1,0 +1,90 @@
+# Known-answer fixture, not a firm's plan: drawdown D = 2,000 USD, eod_trailing, intraday breach
+# check; a scripted day peaks at +1,500 and troughs at -1,000 USD (tests/prop/test_known_answers.py).
+schema = "pfb-rules-1"
+firm = "topstep"
+plan = "ka_eod_trailing"
+size = "50k"
+label = "Known-answer fixture: eod_trailing drawdown, intraday breach check (tests/prop/test_known_answers.py)"
+status = "sourced"
+version = { n = 1, rules_read = "2026-11-16", read_in = "synthetic known-answer fixture, not a firm's rules" }
+effective_from = { v = "2026-11-16", src = "S01" }
+
+[sources.S01]
+record = "PropFirmBacktester:tests/prop/test_known_answers.py#test_peak_and_trough_trailing_type"
+looked_up = "2026-11-16"
+title = "known-answer test fixture (synthetic plan, no firm)"
+
+[eval]
+start_balance_cents = { v = 5000000, src = "S01" }
+profit_target_cents = { v = 300000, src = "S01" }
+target_check = { v = "eod", src = "S01" }
+drawdown_cents = { v = 200000, src = "S01" }
+drawdown_type = { v = "eod_trailing", src = "S01" }
+breach_check = { v = "intraday", src = "S01" }
+breach_at_equal = { v = true, src = "S01" }
+drawdown_lock_rel_cents = { v = "none", src = "S01" }
+daily_loss_cents = { v = "none", src = "S01" }
+daily_loss_kind = { v = "none", src = "S01" }
+consistency_type = { v = "none", src = "S01" }
+consistency_bps = { v = "none", src = "S01" }
+consistency_strict = { v = false, src = "S01" }
+min_trading_days = { v = 1, src = "S01" }
+min_winning_days = { v = 0, src = "S01" }
+winning_day_cents = { v = "none", src = "S01" }
+max_contracts_minis = { v = 100, src = "S01" }
+time_limit_calendar_days = { v = "none", src = "S01" }
+flat_by = { v = "session_close", src = "S01" }
+news_rule = { v = "no_news_rule", src = "S01" }
+
+[funded]
+start_balance_cents = { v = 5000000, src = "S01" }
+drawdown_cents = { v = 200000, src = "S01" }
+drawdown_type = { v = "eod_trailing", src = "S01" }
+breach_check = { v = "intraday", src = "S01" }
+breach_at_equal = { v = true, src = "S01" }
+drawdown_lock_rel_cents = { v = "none", src = "S01" }
+daily_loss_cents = { v = "none", src = "S01" }
+daily_loss_kind = { v = "none", src = "S01" }
+floor_after_first_payout_rel_cents = { v = "none", src = "S01" }
+scaling = { v = [["none", 100]], src = "S01" }
+scaling_boundary = { v = "lower", src = "S01" }
+payout_count_limit = { v = "none", src = "S01" }
+inactivity_days = { v = "none", src = "S01" }
+funded_reset_cents = { v = "none", src = "S01" }
+
+[payout]
+path = { v = "standard", src = "S01" }
+win_day_cents = { v = "none", src = "S01" }
+win_day_strict = { v = false, src = "S01" }
+win_days_required = { v = 0, src = "S01" }
+traded_days_required = { v = 1, src = "S01" }
+net_positive_since_last = { v = false, src = "S01" }
+net_min_first_cents = { v = "none", src = "S01" }
+net_min_later_cents = { v = "none", src = "S01" }
+min_balance_rel_cents = { v = "none", src = "S01" }
+buffer_rel_cents = { v = "none", src = "S01" }
+frac_of_profit_bps = { v = 10000, src = "S01" }
+min_request_cents = { v = 1, src = "S01" }
+caps_cents = { v = [100000000], src = "S01" }
+window_cap_bps = { v = "none", src = "S01" }
+window_cap_from_payout = { v = 1, src = "S01", note = "unused (no window cap)" }
+consistency_bps = { v = "none", src = "S01" }
+consistency_scope = { v = "window", src = "S01" }
+consistency_strict = { v = false, src = "S01" }
+request_weekday = { v = "none", src = "S01" }
+window_calendar_days = { v = "none", src = "S01" }
+dead_days_after_payout = { v = 0, src = "S01" }
+payout_day_counts = { v = true, src = "S01" }
+split_bps = { v = 9000, src = "S01" }
+split_first_full_cents = { v = "none", src = "S01" }
+
+[fees]
+billing = { v = "one_time", src = "S01" }
+eval_price_cents = { v = 10000, src = "S01" }
+billing_period_calendar_days = { v = "none", src = "S01" }
+reset_cents = { v = "none", src = "S01" }
+rebill_adds_reset_credit = { v = false, src = "S01" }
+reset_pushes_rebill = { v = false, src = "S01" }
+activation_cents = { v = 0, src = "S01" }
+funded_monthly_cents = { v = 0, src = "S01" }
+platform_monthly_cents = { v = 0, src = "S01" }

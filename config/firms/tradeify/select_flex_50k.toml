@@ -1,0 +1,132 @@
+# Tradeify Select 50K, Select Flex (5-Day) payout policy, pfb-rules-1. PROVISIONAL.
+# Values come from archived copies of the firm's help-centre articles.
+# Source: the firm's public help centre, read 2026-11-17.
+
+schema = "pfb-rules-1"
+firm = "tradeify"
+plan = "select_flex"
+size = "50k"
+label = "Tradeify Select 50K, 40% consistency evaluation, Select Flex (5-Day) funded payout policy"
+status = "provisional"
+version = { n = 1, rules_read = "2026-11-17", read_in = "removed in the public copy" }
+effective_from = { v = "2026-09-01", src = "W_SEL_EVAL", note = "caps for accounts bought on or after 2026-09-01; Select evaluation article dateModified 2026-11-04" }
+
+[eval]
+start_balance_cents = { v = 5000000, src = "W_SEL_EVAL" }
+profit_target_cents = { v = 300000, src = "W_SEL_EVAL", note = "accounts bought before the new dashboard keep $2,500" }
+target_check = { v = "eod", src = "W_SEL_EVAL", kind = "conservative", alt = ["intraday"], note = "not stated; eod is the stricter reading" }
+drawdown_cents = { v = 200000, src = "W_SEL_EVAL" }
+drawdown_type = { v = "eod_trailing", src = "W_SEL_EVAL" }
+breach_check = { v = "intraday", src = "W_SEL_EVAL" }
+breach_at_equal = { v = true, src = "W_SEL_EVAL", note = "touching fails" }
+drawdown_lock_rel_cents = { v = "none", src = "A2_DD_LOCK", alt = [10000] }
+daily_loss_cents = { v = "none", src = "W_SEL_EVAL" }
+daily_loss_kind = { v = "none", src = "W_SEL_EVAL" }
+consistency_type = { v = "best_day_frac_of_profit", src = "W_SEL_EVAL" }
+consistency_bps = { v = 4000, src = "W_SEL_EVAL", alt = [5000], note = "the 50% add-on is a dearer product ($205 / reset $135, pricing reference 1.4)" }
+consistency_strict = { v = false, src = "W_SEL_EVAL" }
+min_trading_days = { v = 3, src = "W_SEL_EVAL" }
+min_winning_days = { v = 0, src = "W_SEL_EVAL", kind = "inferred" }
+winning_day_cents = { v = "none", src = "W_SEL_EVAL", kind = "inferred" }
+max_contracts_minis = { v = 4, src = "W_SEL_EVAL", note = "4 mini / 40 micro" }
+time_limit_calendar_days = { v = "none", src = "A2_TIMELIMIT", kind = "inferred", note = "no deadline stated for Select; weekly activity rule applies (one trade per Mon-Fri week)" }
+flat_by = { v = "16:45_et", src = "A2_FLAT", note = "informational" }
+news_rule = { v = "unrestricted", src = "W_SEL_EVAL" }
+
+[funded]
+start_balance_cents = { v = 5000000, src = "A2_F_START" }
+drawdown_cents = { v = 200000, src = "W_SEL_PAY" }
+drawdown_type = { v = "eod_trailing", src = "W_SEL_EVAL" }
+breach_check = { v = "intraday", src = "W_COLL_RULES" }
+breach_at_equal = { v = true, src = "W_COLL_RULES" }
+drawdown_lock_rel_cents = { v = 10000, src = "W_SEL_EVAL" }
+daily_loss_cents = { v = "none", src = "W_SEL_PAY" }
+daily_loss_kind = { v = "none", src = "W_SEL_PAY" }
+floor_after_first_payout_rel_cents = { v = 10000, src = "A2_DD_LOCK" }
+scaling = { v = [[150000, 2], [200000, 3], ["none", 4]], src = "W_SEL_PAY" }
+scaling_boundary = { v = "upper", src = "W_SEL_PAY" }
+payout_count_limit = { v = "none", src = "W_SEL_PAY", alt = [3] }
+inactivity_days = { v = 7, src = "A2_TIMELIMIT", kind = "inferred", note = "informational: one trade per Mon-Fri week" }
+funded_reset_cents = { unknown = "unpublished on the pages read, 2026-11-17: the Funded Reset FAQ (Accounts & Rules collection, Wayback 2026-11-03) says a breached Select funded account can be bought back as a fresh funded account of the same size, but no page read gives its price or eligibility (no capture of the article was read 2026-11-16 and the read of 2026-11-17 did not include it)", src = "W_COLL_RULES", note = "no alt: no record gives a price. Not modelled: the run never buys it" }
+
+[payout]
+path = { v = "flex", src = "W_SEL_PAY" }
+win_day_cents = { v = 15000, src = "W_SEL_PAY" }
+win_day_strict = { v = false, src = "W_SEL_PAY" }
+win_days_required = { v = 5, src = "W_SEL_PAY" }
+traded_days_required = { v = 0, src = "W_SEL_PAY", kind = "inferred", note = "no traded-day rule beyond the winning days" }
+net_positive_since_last = { v = true, src = "W_SEL_PAY" }
+net_min_first_cents = { v = "none", src = "W_SEL_PAY", kind = "inferred" }
+net_min_later_cents = { v = "none", src = "W_SEL_PAY", kind = "inferred" }
+min_balance_rel_cents = { v = "none", src = "W_SEL_PAY" }
+buffer_rel_cents = { v = "none", src = "W_SEL_PAY", kind = "inferred", note = "no buffer; the 50% limit keeps the balance above start" }
+frac_of_profit_bps = { v = 5000, src = "W_SEL_PAY" }
+min_request_cents = { v = 25000, src = "W_SEL_PAY" }
+caps_cents = { v = [250000], src = "W_SEL_PAY", alt = [[200000], [300000]], note = "$2,500 per payout for accounts bought after 2026-09-01; $2,000 with the 50% consistency add-on; $3,000 if bought before" }
+window_cap_bps = { v = "none", src = "W_SEL_PAY" }
+window_cap_from_payout = { v = 1, src = "W_SEL_PAY", note = "unused (no window cap)" }
+consistency_bps = { v = "none", src = "W_SEL_PAY" }
+consistency_scope = { v = "window", src = "W_SEL_PAY", kind = "inferred", note = "unused" }
+consistency_strict = { v = false, src = "W_SEL_PAY", kind = "inferred", note = "unused" }
+request_weekday = { v = "none", src = "W_SEL_PAY", kind = "inferred", note = "any day; one open request at a time" }
+window_calendar_days = { v = "none", src = "W_SEL_PAY", kind = "inferred", note = "no calendar-day payout window stated (the window is in trading days)" }
+dead_days_after_payout = { v = 0, src = "W_SEL_PAY", kind = "inferred" }
+payout_day_counts = { v = false, src = "W_SEL_PAY", kind = "conservative", alt = [true], note = "not stated" }
+split_bps = { v = 9000, src = "W_SEL_PAY" }
+split_first_full_cents = { v = "none", src = "W_SEL_PAY", kind = "inferred" }
+
+[fees]
+billing = { v = "one_time", src = "A2_SEL_PRICE" }
+eval_price_cents = { v = 16500, src = "A2_SEL_PRICE", alt = [20500], note = "40% consistency version; $205 with the 50% add-on" }
+billing_period_calendar_days = { v = "none", src = "A2_SEL_PRICE" }
+reset_cents = { v = 10900, src = "A2_SEL_PRICE", alt = [13500] }
+rebill_adds_reset_credit = { v = false, src = "A2_SEL_PRICE", note = "no rebill" }
+reset_pushes_rebill = { v = false, src = "A2_SEL_PRICE", note = "no rebill" }
+activation_cents = { v = 0, src = "W_SEL_EVAL" }
+funded_monthly_cents = { v = 0, src = "W_SEL_EVAL" }
+platform_monthly_cents = { v = 0, src = "A2_SEL_PRICE", kind = "inferred", note = "no API fee found; Tradovate API only on live" }
+
+[sources.W_SEL_EVAL]
+record = "removed in the public copy"
+looked_up = "2026-11-07"
+title = "Tradeify help: Select Evaluation Accounts (Wayback capture 2026-11-07; dateModified 2026-11-04)"
+
+[sources.W_COLL_RULES]
+record = "removed in the public copy"
+looked_up = "2026-11-03"
+title = "Tradeify help centre, Accounts & Rules collection (Wayback capture 2026-11-03; article summaries)"
+
+[sources.A2_DD_LOCK]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.max_loss (drawdown article, copy 2026-10-03)"
+
+[sources.A2_TIMELIMIT]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.time_limit (Growth; weekly activity rule firm-wide)"
+
+[sources.A2_FLAT]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify plan.flat_by (firm-wide)"
+
+[sources.A2_F_START]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.start_balance (firm-wide get-funded article)"
+
+[sources.A2_F_SCALING]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify funded.scaling"
+
+[sources.A2_SEL_PRICE]
+record = "removed in the public copy"
+looked_up = "2026-10-21"
+title = "Tradeify section 1.4, Select 50K price and reset (pricing reference)"
+
+[sources.W_SEL_PAY]
+record = "removed in the public copy"
+looked_up = "2026-11-07"
+title = "Tradeify help: Select Flex and Select Daily Payout Policies (Wayback capture 2026-11-07; dateModified 2026-11-04)"

@@ -1,0 +1,151 @@
+# MyFundedFutures Rapid 50K (intraday-trailing funded stage), pfb-rules-1.
+# Source: the firm's public help centre, read 2026-11-16.
+
+schema = "pfb-rules-1"
+firm = "mffu"
+plan = "rapid"
+size = "50k"
+label = "MyFundedFutures Rapid 50K: EOD-trailing evaluation, intraday-trailing Sim Funded, daily payouts"
+status = "sourced"
+version = { n = 1, rules_read = "2026-11-16", read_in = "removed in the public copy" }
+effective_from = { v = "2026-08-25", src = "M_RESET", note = "one-time payment model for purchases from 2026-08-25; Rapid 50K guide dated 2026-08-24; 90% split since 2026-01-12 (M_PAYOUT)" }
+
+[eval]
+start_balance_cents = { v = 5000000, src = "M_RAPID_ART" }
+profit_target_cents = { v = 300000, src = "M_RAPID_ART" }
+target_check = { v = "eod", src = "M_RAPID_PAGE", kind = "conservative", alt = ["intraday"], note = "pages do not say whether equity touching the target passes intraday; eod passes later, the stricter reading" }
+drawdown_cents = { v = 200000, src = "M_RAPID_ART" }
+drawdown_type = { v = "eod_trailing", src = "M_RAPID_PAGE" }
+breach_check = { v = "intraday", src = "M_EOD", note = "an open position dipping below the minimum balance fails the evaluation" }
+breach_at_equal = { v = false, src = "M_EOD" }
+drawdown_lock_rel_cents = { v = 10000, src = "M_EOD" }
+daily_loss_cents = { v = "none", src = "M_RAPID_ART" }
+daily_loss_kind = { v = "none", src = "M_RAPID_ART" }
+consistency_type = { v = "best_day_frac_of_profit", src = "M_CONS", alt = ["best_day_frac_of_target"] }
+consistency_bps = { v = 5000, src = "M_CONS" }
+consistency_strict = { v = false, src = "M_CONS" }
+min_trading_days = { v = 2, src = "M_RAPID_ART" }
+min_winning_days = { v = 0, src = "M_RAPID_ART", kind = "inferred", note = "no winning-day rule on the evaluation table" }
+winning_day_cents = { v = "none", src = "M_RAPID_ART", kind = "inferred", note = "no winning-day rule" }
+max_contracts_minis = { v = 5, src = "M_RAPID_ART", note = "5 minis / 50 micros" }
+time_limit_calendar_days = { v = "none", src = "M_INACT", kind = "inferred", note = "no deadline on any page; the 7-calendar-day inactivity closure applies (one-time model)" }
+flat_by = { v = "16:10_et", src = "M_TIMES", note = "informational; positions auto-closed at 4:10 PM ET on regular days" }
+news_rule = { v = "unrestricted", src = "M_RAPID_ART" }
+
+[funded]
+start_balance_cents = { v = 0, src = "M_RAPID_ART" }
+drawdown_cents = { v = 200000, src = "M_RAPID_ART" }
+drawdown_type = { v = "intraday_trailing", src = "M_RAPID_ART" }
+breach_check = { v = "intraday", src = "M_INTRA", note = "equity including open trades below the adjusted limit breaches" }
+breach_at_equal = { v = false, src = "M_RAPID_ART" }
+drawdown_lock_rel_cents = { v = 10000, src = "M_RAPID_ART" }
+daily_loss_cents = { v = "none", src = "M_RAPID_PAGE", note = "FAQ: no daily loss limit in either the evaluation or the funded stage" }
+daily_loss_kind = { v = "none", src = "M_RAPID_PAGE" }
+floor_after_first_payout_rel_cents = { v = 10000, src = "M_RAPID_PAGE", kind = "inferred", note = "FAQ: after the first payout the floor locks at start + $100; the $2,100 buffer already implies the lock" }
+scaling = { v = [["none", 5]], src = "M_RAPID_ART", note = "flat 5 minis / 50 micros in Sim Funded (the plan page lists 3/30 for the live stage)" }
+scaling_boundary = { v = "lower", src = "M_RAPID_ART", kind = "inferred", note = "one tier: unused" }
+payout_count_limit = { v = "none", src = "M_PAYOUT", kind = "inferred", note = "no payout count limit; a $10,000 single-day profit moves the account to Live automatically (not modelled)" }
+inactivity_days = { v = 7, src = "M_INACT", note = "informational; an inactivity breach on Sim Funded forfeits all profits (page dated 2026-11-06)" }
+funded_reset_cents = { unknown = "not published on the firm's help pages, read 2026-11-17: the resets article (M_RESET_E3) and the Rapid EOD 50k article name no reset of a breached Sim Funded account and no price", src = "M_RESET_E3", note = "not modelled: the run never buys one; never assumed available" }
+
+[payout]
+path = { v = "daily", src = "M_RAPID_ART" }
+win_day_cents = { v = "none", src = "M_RAPID_ART", kind = "inferred", note = "no winning-day rule" }
+win_day_strict = { v = false, src = "M_RAPID_ART", kind = "inferred", note = "unused" }
+win_days_required = { v = 0, src = "M_RAPID_ART", kind = "inferred" }
+traded_days_required = { v = 1, src = "M_RAPID_ART", kind = "inferred" }
+net_positive_since_last = { v = false, src = "M_PAYOUT", kind = "inferred", note = "no such rule; the buffer and $500 minimum bind instead" }
+net_min_first_cents = { v = "none", src = "M_PAYOUT", kind = "inferred" }
+net_min_later_cents = { v = "none", src = "M_PAYOUT", kind = "inferred" }
+min_balance_rel_cents = { v = 210000, src = "M_RAPID_ART" }
+buffer_rel_cents = { v = 210000, src = "M_PAYOUT", kind = "inferred" }
+frac_of_profit_bps = { v = 10000, src = "M_PAYOUT", kind = "inferred", note = "no percentage limit stated" }
+min_request_cents = { v = 50000, src = "M_RAPID_ART" }
+caps_cents = { v = "none", src = "M_PAYOUT", kind = "inferred", note = "no per-request maximum on any Rapid page (none replaces the earlier $1,000,000 stand-in)" }
+window_cap_bps = { v = "none", src = "M_PAYOUT" }
+window_cap_from_payout = { v = 1, src = "M_PAYOUT", note = "unused (no window cap)" }
+consistency_bps = { v = "none", src = "M_RAPID_ART" }
+consistency_scope = { v = "window", src = "M_RAPID_ART", kind = "inferred", note = "unused" }
+consistency_strict = { v = false, src = "M_RAPID_ART", kind = "inferred", note = "unused" }
+request_weekday = { v = "none", src = "M_RAPID_ART", kind = "inferred", note = "any day" }
+window_calendar_days = { v = "none", src = "M_RAPID_ART", kind = "inferred", note = "no calendar-day payout window stated (the window is in trading days)" }
+dead_days_after_payout = { v = 0, src = "M_RAPID_ART", kind = "inferred" }
+payout_day_counts = { v = false, src = "M_RAPID_ART", kind = "conservative", alt = [true], note = "not stated; the next request needs a new traded day (24 h cadence)" }
+split_bps = { v = 9000, src = "M_PAYOUT", note = "90% on Rapid Sim Funded since 2026-01-12" }
+split_first_full_cents = { v = "none", src = "M_PAYOUT", kind = "inferred" }
+
+[fees]
+billing = { v = "one_time", src = "M_RAPID_PAGE" }
+eval_price_cents = { v = 20900, src = "M_HOME", alt = [12500] }
+billing_period_calendar_days = { v = "none", src = "M_RAPID_PAGE" }
+reset_cents = { unknown = "a Rapid evaluation reset exists for a fee (plan FAQ) but no MFFU page states the price", src = "M_RAPID_PAGE", alt = ["none"], note = "alt none = every failure buys a new evaluation at the list price (as for Builder)" }
+rebill_adds_reset_credit = { v = false, src = "M_RESET", note = "no rebill under the one-time model" }
+reset_pushes_rebill = { v = false, src = "M_RESET", note = "no rebill under the one-time model" }
+activation_cents = { v = 0, src = "M_ACT" }
+funded_monthly_cents = { v = 0, src = "M_RAPID_PAGE", kind = "inferred", note = "no funded fee on any page" }
+platform_monthly_cents = { v = 0, src = "M_RAPID_PAGE", kind = "inferred", note = "no MFFU API or API fee documented; whether a bot can reach the account is open" }
+
+[sources.M_RAPID_ART]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: Rapid Plan 50k - A Comprehensive Look (dated 2026-08-24)"
+
+[sources.M_RAPID_PAGE]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU Rapid plan page (rules table and FAQ)"
+
+[sources.M_HOME]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU homepage plan selector, 50K"
+
+[sources.M_EOD]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: Max EOD drawdown explained (dated 2026-08-24)"
+
+[sources.M_INTRA]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: Intraday Drawdown Explained (dated 2026-01-08)"
+
+[sources.M_CONS]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: Consistency Rule (dated 2026-09-25)"
+
+[sources.M_PAYOUT]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: Payout Policy Overview (dated 2026-08-25)"
+
+[sources.M_RESET_E3]
+record = "removed in the public copy"
+looked_up = "2026-11-17"
+title = "MFFU help: Understanding the Difference Between Account Resets and Renewals (dated September 24, 2026), fetched 2026-11-17"
+
+[sources.M_RESET]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: Account resets and renewals (dated 2026-09-24)"
+
+[sources.M_INACT]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: Inactivity Rule, one-time payment model (dated 2026-11-06)"
+
+[sources.M_TIMES]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: Permitted Times to Trade (dated 2026-08-24)"
+
+[sources.M_ACT]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: activation fees (dated 2026-08-25)"
+
+[sources.M_NEWS]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "MFFU help: News Trading Policy (dated 2026-08-31)"

@@ -1,0 +1,152 @@
+# Bulenox Qualification 50K, Option 2 (EOD drawdown, scaling plan, daily loss limit), then the Master Account
+# (simulated funded phase), pfb-rules-1.
+# Source: the firm's public help centre, read 2026-11-16.
+
+schema = "pfb-rules-1"
+firm = "bulenox"
+plan = "qualification_option2"
+size = "50k"
+label = "Bulenox Qualification 50K, Option 2 end-of-day drawdown, Master Account funded phase"
+status = "sourced"
+version = { n = 1, rules_read = "2026-11-16", read_in = "removed in the public copy" }
+effective_from = { v = "2026-10-24", src = "S08" }
+
+[sources.S01]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Accounts & Pricing, trailing view; both options share sizes, targets and prices (Wayback 2026-11-07)"
+
+[sources.S02]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox site bundle, pricing tier data (Wayback 2026-11-06)"
+
+[sources.S03]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'rules' (Qualification Rules) (Wayback 2026-11-02)"
+
+[sources.S04]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'option-2' (EOD Account) (Wayback 2026-11-02)"
+
+[sources.S05]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'reset' (Wayback 2026-11-02)"
+
+[sources.S06]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'minimum-trading-days' (Wayback 2026-11-02)"
+
+[sources.S07]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'master-trading-rules' (Master Account Trading Rules) (Wayback 2026-11-02)"
+
+[sources.S08]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'withdrawal-rules' (Master Withdrawal Rules) (Wayback 2026-11-02; same text 2026-10-24)"
+
+[sources.S09]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'activation-fee' (Wayback 2026-11-02)"
+
+[sources.S10]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'moving-to-funded' (Wayback 2026-11-02)"
+
+[sources.S11]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'inactivity-rule' (Wayback 2026-11-02)"
+
+[sources.S12]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox FAQ CMS (Wayback 2026-10-28)"
+
+[sources.S13]
+record = "removed in the public copy"
+looked_up = "2026-11-16"
+title = "Bulenox Help Center CMS item 'account-cancellation' (Wayback 2026-11-02)"
+
+[eval]
+start_balance_cents = { v = 5000000, src = "S01" }
+profit_target_cents = { v = 300000, src = "S01" }
+target_check = { v = "eod", src = "S03", kind = "conservative", alt = ["intraday"], note = "the account is submitted for review once the target is reached; whether open equity at a minute counts is not stated, so the close is used" }
+drawdown_cents = { v = 250000, src = "S01" }
+drawdown_type = { v = "eod_trailing", src = "S04", note = "threshold set from the closing balance; intraday moves do not change it" }
+breach_check = { v = "intraday", src = "S07", kind = "conservative", alt = ["eod"] }
+breach_at_equal = { v = false, src = "S07" }
+drawdown_lock_rel_cents = { v = "none", src = "S04", note = "the stop at start + 100 is stated for the Master Account only" }
+daily_loss_cents = { v = 110000, src = "S02", note = "includes realized and unrealized P&L and commissions, 17:00-16:00 CT" }
+daily_loss_kind = { v = "soft", src = "S04", note = "trading disabled for the rest of the day, not a violation" }
+consistency_type = { v = "none", src = "S03", note = "no Qualification consistency text on any page read" }
+consistency_bps = { v = "none", src = "S03" }
+consistency_strict = { v = false, src = "S03", note = "not applicable" }
+min_trading_days = { v = 1, src = "S06" }
+min_winning_days = { v = 0, src = "S06" }
+winning_day_cents = { v = "none", src = "S06" }
+max_contracts_minis = { v = 2, src = "S04", kind = "conservative", alt = [7], note = "Option 2 scales by Cash on Hand in the Qualification too: up to 1,500: 2; 1,501-4,000: 4; 4,001+: 7; [eval] holds one number, so the lowest tier" }
+time_limit_calendar_days = { v = 30, src = "S01", note = "per purchase; a reset does not extend it (S05)" }
+flat_by = { v = "ct_1559", src = "S03", note = "flat by 15:59 CT, overnight holding prohibited" }
+news_rule = { v = "none", src = "S12" }
+
+[funded]
+start_balance_cents = { v = 5000000, src = "S07" }
+drawdown_cents = { v = 250000, src = "S07" }
+drawdown_type = { v = "eod_trailing", src = "S07" }
+breach_check = { v = "intraday", src = "S07", kind = "conservative", alt = ["eod"], note = "as in [eval]" }
+breach_at_equal = { v = false, src = "S07" }
+drawdown_lock_rel_cents = { v = 10000, src = "S07", note = "locks at 50,100 after a close at 52,600" }
+daily_loss_cents = { v = 110000, src = "S07", kind = "conservative", note = "the DLL is permanently removed once the drawdown locks; kept throughout because the schema holds one number" }
+daily_loss_kind = { v = "soft", src = "S07" }
+floor_after_first_payout_rel_cents = { v = "none", src = "S07", note = "no payout-specific floor change; a payout needs 53,600, so the floor is already locked at 50,100" }
+scaling = { v = [[150000, 2], [400000, 4], ["none", 7]], src = "S07", note = "Cash on Hand (balance over start): up to 1,500: 2; 1,501-4,000: 4; 4,001+: 7; works in both directions" }
+scaling_boundary = { v = "lower", src = "S07" }
+payout_count_limit = { v = 3, src = "S10", kind = "conservative", alt = ["none"], note = "after 3 payouts a discretionary move to a live Funded Account (balance not carried over; declining closes the Master); payouts 4+ exist on the Master if not moved (S08)" }
+inactivity_days = { v = 7, src = "S11" }
+funded_reset_cents = { unknown = "no page or record read for this repo states whether bulenox sells a reset of a breached funded account (the pages and records read 2026-11-16 and 2026-11-17 name none); not researched, so not assumed either way", note = "not modelled: the run never buys one" }
+
+[payout]
+path = { v = "standard", src = "S08" }
+win_day_cents = { v = "none", src = "S08" }
+win_day_strict = { v = false, src = "S08", note = "not applicable" }
+win_days_required = { v = 0, src = "S08" }
+traded_days_required = { v = 10, src = "S08", note = "10 individual trading days per payout, counted after the previous payout is completed" }
+net_positive_since_last = { v = false, src = "S08", kind = "inferred", note = "no separate net rule; the consistency test needs a positive window total" }
+net_min_first_cents = { v = "none", src = "S08" }
+net_min_later_cents = { v = "none", src = "S08" }
+min_balance_rel_cents = { v = "none", src = "S08", note = "implied by reserve + minimum: 53,600 for the minimum payout" }
+buffer_rel_cents = { v = 260000, src = "S08", note = "Safety Threshold Reserve 2,600 must remain above the start" }
+frac_of_profit_bps = { v = 10000, src = "S08" }
+min_request_cents = { v = 100000, src = "S08" }
+caps_cents = { v = [150000], src = "S08", note = "1,500 for each of the first three payouts at 50K" }
+window_cap_bps = { v = "none", src = "S08" }
+window_cap_from_payout = { v = 1, src = "S08", note = "unused (no window cap)" }
+consistency_bps = { v = 4000, src = "S08" }
+consistency_scope = { v = "window", src = "S08", note = "changed from cumulative; first payout window runs from the first Master day; reserve included in the first-payout total" }
+consistency_strict = { v = false, src = "S08" }
+request_weekday = { v = 5, src = "S08", kind = "inferred", alt = ["none"], note = "requests any day; processed Wednesdays, cutoff Friday 23:59 CT; Friday is the request day that loses fewest days (policy choice)" }
+window_calendar_days = { v = "none", src = "S08", kind = "inferred", note = "no calendar-day payout window stated (the window is in trading days)" }
+dead_days_after_payout = { v = 2, src = "S08", kind = "conservative", alt = [1] }
+payout_day_counts = { v = false, src = "S08", note = "the next period begins after the payout is completed; with request_weekday 5 the uncounted day is the Monday after the Friday request" }
+split_bps = { v = 9000, src = "S08" }
+split_first_full_cents = { v = "none", src = "S08", note = "the 100%-of-the-first-10,000 tier is no longer on the page" }
+
+[fees]
+billing = { v = "one_time", src = "S13" }
+eval_price_cents = { v = 17500, src = "S01" }
+billing_period_calendar_days = { v = "none", src = "S13", note = "one-time with 30 days of access (eval.time_limit_calendar_days)" }
+reset_cents = { v = 7800, src = "S05", note = "same 30-day access clock" }
+rebill_adds_reset_credit = { v = false, src = "S13", note = "no renewal" }
+reset_pushes_rebill = { v = false, src = "S05" }
+activation_cents = { v = 14800, src = "S09" }
+funded_monthly_cents = { v = 0, src = "S09" }
+platform_monthly_cents = { v = 10000, src = "S12", note = "third-party API or composite software connection to Rithmic; professional data (116/month) not included" }

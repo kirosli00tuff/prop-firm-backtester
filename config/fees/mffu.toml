@@ -1,0 +1,164 @@
+# config/fees/mffu.toml: commission per side and per round turn, integer cents, per allowed root.
+# Source: the firm's public fee schedule, read 2026-10-21.
+# cents = Decimal(str(usd)) x 100, whole; a side derived from a round turn alone is ceil(rt / 2).
+# Only roots of config/instruments.toml are listed; a root not listed cannot run with this firm.
+
+schema = "pfb.fees/1"
+firm = "mffu"
+lookup_date = 2026-10-21
+source_file = "removed in the public copy"
+source_sha256 = "removed in the public copy"
+
+[[fee]]
+root = "NQ"
+commission_side_cents = 234
+commission_rt_cents = 468
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MNQ"
+commission_side_cents = 95
+commission_rt_cents = 190
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "RTY"
+commission_side_cents = 234
+commission_rt_cents = 468
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "M2K"
+commission_side_cents = 95
+commission_rt_cents = 190
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "YM"
+commission_side_cents = 288
+commission_rt_cents = 576
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MYM"
+commission_side_cents = 95
+commission_rt_cents = 190
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "6E"
+commission_side_cents = 256
+commission_rt_cents = 512
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "M6E"
+commission_side_cents = 72
+commission_rt_cents = 144
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "6A"
+commission_side_cents = 252
+commission_rt_cents = 504
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "M6A"
+commission_side_cents = 72
+commission_rt_cents = 144
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "CL"
+commission_side_cents = 246
+commission_rt_cents = 492
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MCL"
+commission_side_cents = 58
+commission_rt_cents = 116
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "QM"
+commission_side_cents = 216
+commission_rt_cents = 432
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "GC"
+commission_side_cents = 256
+commission_rt_cents = 512
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MGC"
+commission_side_cents = 110
+commission_rt_cents = 220
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "SIL"
+commission_side_cents = 142
+commission_rt_cents = 284
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZC"
+commission_side_cents = 306
+commission_rt_cents = 612
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZW"
+commission_side_cents = 306
+commission_rt_cents = 612
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZS"
+commission_side_cents = 306
+commission_rt_cents = 612
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZM"
+commission_side_cents = 306
+commission_rt_cents = 612
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "ZL"
+commission_side_cents = 306
+commission_rt_cents = 612
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21
+
+[[fee]]
+root = "MBT"
+commission_side_cents = 175
+commission_rt_cents = 350
+source_file = "removed in the public copy"
+lookup_date = 2026-10-21

@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pfb.result/1",
+  "title": "PropFirmBacktester result contract (docs/TRIALS.md section 7)",
+  "description": "What `pfb run --json`, `pfb prop --json`, pfb.app and the MCP server return: one run's result, or a refusal or error. A part that was turned off or does not apply is null, never absent. Money in integer cents except Monte Carlo means (floats in cents).",
+  "oneOf": [{"$ref": "#/$defs/result"}, {"$ref": "#/$defs/refusal"}],
+  "$defs": {
+    "num": {"type": ["number", "null"]},
+    "int": {"type": ["integer", "null"]},
+    "sha": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "date": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"},
+    "refusal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "status", "error"],
+      "properties": {
+        "schema": {"const": "pfb.result/1"},
+        "status": {"enum": ["refused", "error"]},
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "reason"],
+          "properties": {"code": {"type": "string", "minLength": 1}, "reason": {"type": "string"}}
+        }
+      }
+    },
+    "cost_stress_level": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["net_cents", "sharpe"],
+      "properties": {"net_cents": {"type": "integer"}, "sharpe": {"$ref": "#/$defs/num"}}
+    },
+    "prop_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["firm", "plan", "status", "reason", "p_pass", "p_pass_se", "ev_per_purchase_cents",
+                   "ev_se_cents", "n_paths", "seed", "soft_daily_loss"],
+      "properties": {
+        "firm": {"type": "string"},
+        "plan": {"type": "string"},
+        "status": {"enum": ["ok", "skipped"]},
+        "reason": {"type": ["string", "null"]},
+        "p_pass": {"$ref": "#/$defs/num"},
+        "p_pass_se": {"$ref": "#/$defs/num"},
+        "ev_per_purchase_cents": {"$ref": "#/$defs/num"},
+        "ev_se_cents": {"$ref": "#/$defs/num"},
+        "n_paths": {"$ref": "#/$defs/int"},
+        "seed": {"$ref": "#/$defs/int"},
+        "soft_daily_loss": {"enum": ["limit", "minute_low", null]},
+        "plan_version": {"$ref": "#/$defs/int", "description": "Rules label: version.n of the plan file that produced the row; null when skipped. Rows written earlier lack the four label keys."},
+        "effective_from": {"type": ["string", "null"], "description": "Rules label: the plan version's effective_from (ISO date)."},
+        "plan_file_sha256": {"$ref": "#/$defs/sha", "description":"Rules label: sha256 of the plan file's bytes."},
+        "rules_in_force": {"enum": ["newest_undated", "by_day", null], "description": "newest_undated: a resampled path charged every day under the newest version; by_day: each day under the version in force on its trade date."},
+        "copies": {"$ref": "#/$defs/copies_row", "description": "Only when copies N was asked (one plan, never on a trial): N accounts copying the signal on the same paths beside N independent accounts of the same marginal; the full document is the _copies<N>.json artifact."}
+      }
+    },
+    "copies_column": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["p_all_pass", "p_all_fail", "p_any_pass", "corr_pass_two_accounts", "payout_sum_mean_cents",
+                   "payout_sum_sd_cents", "net_sum_mean_cents", "net_sum_sd_cents", "net_sum_q05_cents",
+                   "net_sum_q50_cents", "net_sum_q95_cents"],
+      "properties": {
+        "p_all_pass": {"$ref": "#/$defs/num"},
+        "p_all_fail": {"$ref": "#/$defs/num"},
+        "p_any_pass": {"$ref": "#/$defs/num"},
+        "corr_pass_two_accounts": {"$ref": "#/$defs/num", "description": "null for one account or no variance"},
+        "payout_sum_mean_cents": {"$ref": "#/$defs/num"},
+        "payout_sum_sd_cents": {"$ref": "#/$defs/num"},
+        "net_sum_mean_cents": {"$ref": "#/$defs/num"},
+        "net_sum_sd_cents": {"$ref": "#/$defs/num"},
+        "net_sum_q05_cents": {"$ref": "#/$defs/int"},
+        "net_sum_q50_cents": {"$ref": "#/$defs/int"},
+        "net_sum_q95_cents": {"$ref": "#/$defs/int"}
+      }
+    },
+    "copies_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["n_accounts", "copies", "independent", "not_modelled"],
+      "properties": {
+        "n_accounts": {"type": "integer", "minimum": 1},
+        "copies": {"$ref": "#/$defs/copies_column"},
+        "independent": {"$ref": "#/$defs/copies_column"},
+        "not_modelled": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "run_id", "kind", "status", "hypothesis_id", "purpose", "strategy", "root",
+                   "window", "params", "n", "n_added", "net_cents", "trades", "win_rate", "profit_factor",
+                   "expectancy_cents", "sharpe", "sortino", "max_drawdown_cents", "psr", "dsr", "minbtl_years",
+                   "cost_stress", "baseline", "power", "walk_forward", "neighbourhood", "prop", "warnings",
+                   "artifacts", "artifact_sha256", "ledger"],
+      "properties": {
+        "schema": {"const": "pfb.result/1"},
+        "run_id": {"type": "string", "pattern": "^(trial|engine_check|synthetic)-[A-Za-z0-9_.-]+$"},
+        "kind": {"enum": ["trial", "engine_check", "synthetic"]},
+        "status": {"enum": ["ok", "failed", "open"]},
+        "hypothesis_id": {"type": ["string", "null"]},
+        "purpose": {"enum": ["research", "TEST", null]},
+        "strategy": {"type": ["string", "null"]},
+        "root": {"type": ["string", "null"]},
+        "window": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "array", "prefixItems": [{"$ref": "#/$defs/date"}, {"$ref": "#/$defs/date"}],
+             "minItems": 2, "maxItems": 2}
+          ]
+        },
+        "params": {"type": ["object", "null"]},
+        "n": {"$ref": "#/$defs/int", "description": "The global trial count N right after this run's begin record (not the live N; `pfb prop` on an old run repeats it)."},
+        "n_added": {"type": ["integer", "null"], "minimum": 0},
+        "net_cents": {"$ref": "#/$defs/int"},
+        "trades": {"type": ["integer", "null"], "minimum": 0},
+        "win_rate": {"$ref": "#/$defs/num"},
+        "profit_factor": {"$ref": "#/$defs/num"},
+        "expectancy_cents": {"$ref": "#/$defs/num"},
+        "sharpe": {"$ref": "#/$defs/num"},
+        "sortino": {"$ref": "#/$defs/num"},
+        "max_drawdown_cents": {"$ref": "#/$defs/int"},
+        "psr": {"$ref": "#/$defs/num"},
+        "dsr": {"$ref": "#/$defs/num"},
+        "minbtl_years": {"$ref": "#/$defs/num"},
+        "cost_stress": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "object", "minProperties": 1, "additionalProperties": false,
+             "patternProperties": {"^[1-9][0-9]*$": {"$ref": "#/$defs/cost_stress_level"}}}
+          ]
+        },
+        "baseline": {
+          "description": "S2 random-entry baseline. The four figures come from ONE mode, named in `mode`: of tod (keeps each trade's CT minute, so the costs by time of day are the strategy's), uniform, and cost_matched (uniform's own placements; same seed and draws; each charged the commission + slippage the engine charged the real trade it replaces), the one with the largest p_net, ties to cost_matched then tod. Every mode always runs (no switch) and is in suite.json. Records written before have two modes and the larger p_net of tod and uniform. A warning says when every draw of the reported mode has the same net (percentile uninformative).",
+          "oneOf": [
+            {"type": "null"},
+            {"type": "object", "additionalProperties": false,
+             "required": ["draws", "mode", "net_percentile", "sharpe_percentile", "p_net", "p_sharpe"],
+             "properties": {
+               "draws": {"type": "integer", "minimum": 200, "description": "Draws per mode."},
+               "mode": {"enum": ["tod", "uniform", "cost_matched"], "description": "The mode the four figures come from."},
+               "net_percentile": {"type": ["number", "null"], "minimum": 0, "maximum": 1,
+                                  "description": "Fraction in [0, 1] of draws with net below the strategy's, plus half the ties (not a percent)."},
+               "sharpe_percentile": {"type": ["number", "null"], "minimum": 0, "maximum": 1,
+                                     "description": "The same for the annual Sharpe; null when the strategy's Sharpe is undefined."},
+               "p_net": {"type": ["number", "null"], "minimum": 0, "maximum": 1,
+                         "description": "One-sided p = (1 + draws with net >= the strategy's) / (draws + 1)."},
+               "p_sharpe": {"type": ["number", "null"], "minimum": 0, "maximum": 1,
+                            "description": "The same for the annual Sharpe."}
+             }}
+          ]
+        },
+        "power": {
+          "description": "S3 power (docs/TRIALS.md section 5). The stated figures (a trial only) are at n_used over the trial's own window; the realized ones use the run's own trades, sd and days / 252.",
+          "oneOf": [
+            {"type": "null"},
+            {"type": "object", "additionalProperties": false,
+             "required": ["min_edge_cents", "min_edge_cents_alpha", "target_edge_cents",
+                          "realized_min_edge_cents", "realized_edge_cents", "passed"],
+             "properties": {
+               "min_edge_cents": {"$ref": "#/$defs/int", "description": "Stated minimum detectable edge per trade after deflation for N (trial only; null otherwise)."},
+               "min_edge_cents_alpha": {"$ref": "#/$defs/int", "description": "The same without deflation (alpha only)."},
+               "target_edge_cents": {"$ref": "#/$defs/int", "description": "The edge per trade the hypothesis claims (trial only)."},
+               "realized_min_edge_cents": {"$ref": "#/$defs/int", "description": "Minimum detectable edge at the run's realized figures; null when undetectable or not computable (then a warning gives the reason when a minimum is stated)."},
+               "realized_edge_cents": {"$ref": "#/$defs/int", "description": "The run's mean net per trade, floored."},
+               "passed": {"type": ["boolean", "null"], "description": "The REALIZED test, realized_edge_cents >= realized_min_edge_cents (false when undetectable, null when not computable). Not the begin gate: a trial always passed that gate."}
+             }}
+          ]
+        },
+        "walk_forward": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "object", "additionalProperties": false,
+             "required": ["folds", "sharpe_spread", "positive_folds"],
+             "properties": {
+               "folds": {"type": "integer", "minimum": 2},
+               "sharpe_spread": {"$ref": "#/$defs/num"},
+               "positive_folds": {"type": "integer", "minimum": 0}
+             }}
+          ]
+        },
+        "neighbourhood": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "object", "additionalProperties": false, "required": ["verdict", "ratio", "run_ids"],
+             "properties": {
+               "verdict": {"enum": ["plateau", "spike", "mixed", "n/a"]},
+               "ratio": {"$ref": "#/$defs/num"},
+               "run_ids": {"type": "array", "items": {"type": "string"}}
+             }}
+          ]
+        },
+        "prop": {
+          "oneOf": [{"type": "null"}, {"type": "array", "items": {"$ref": "#/$defs/prop_row"}}]
+        },
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "artifacts": {"type": "array", "items": {"type": "string"}},
+        "artifact_sha256": {
+          "oneOf": [{"type": "null"},
+                    {"type": "object",
+                     "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}]
+        },
+        "ledger": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["begin_sha256", "result_sha256"],
+          "properties": {"begin_sha256": {"$ref": "#/$defs/sha"}, "result_sha256": {"$ref": "#/$defs/sha"}}
+        }
+      }
+    }
+  }
+}
