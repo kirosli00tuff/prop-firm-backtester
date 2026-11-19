@@ -4,6 +4,7 @@ nothing added to N; the repository's own ledger, runs and catalog are never touc
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from typer.testing import CliRunner
@@ -41,6 +42,7 @@ def test_pfb_demo_help_names_every_step() -> None:
     result = CliRunner().invoke(app, ["demo", "--help"])
 
     assert result.exit_code == 0
-    text = " ".join(result.output.split())
+    plain = re.sub(r"\x1b\[[0-9;]*m", "", result.output)  # CI terminals get ANSI colour codes
+    text = " ".join(plain.split())
     for word in ("demo store", "DataGateway", "pfb check", "synthetic run", "prop Monte Carlo", "--dash"):
         assert word in text, word
